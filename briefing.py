@@ -34,6 +34,19 @@ SWING_INSTRUCTION = (
 )
 
 
+def _final_text(content):
+    """Vrátí jen poslední souvislý blok textu. Model si mezi tool voláními někdy
+    'myslí nahlas' do viditelných textových bloků — ty před posledním tool blokem
+    se zahodí, aby se do briefingu nedostalo nic jiného než finální odpověď."""
+    texts = []
+    for b in content:
+        if getattr(b, "type", "") == "text":
+            texts.append(b.text)
+        else:
+            texts = []
+    return "".join(texts).strip()
+
+
 def _format_positions(positions):
     lines = []
     for p in positions:
@@ -97,33 +110,48 @@ Portfolio (celkem {data['total_czk']:.0f} Kč; kurz USD/CZK {data['usd_czk']}):
 
 Watchlist (jen sleduj, nekupuj): {wl}{decisions_block}
 
-Přes web search dohledej k jednotlivým akciím, krypto, watchlistu a makru (S&P 500, Fed, sazby) nejnovější zprávy (posledních ~24–72 h): výsledky, výhledy, analytická doporučení, velké pohyby, nadcházející katalyzátory. NIKDY si zprávy nevymýšlej — když k něčemu nic nenajdeš, napiš to.
+Přes web search dohledej k jednotlivým akciím, krypto, watchlistu a makru (S&P 500, Fed, sazby) nejnovější zprávy (posledních ~24–72 h): výsledky, výhledy, analytická doporučení, velké pohyby, nadcházející katalyzátory. NIKDY si zprávy nevymýšlej — když k něčemu nic nenajdeš, napiš to. Máš omezený počet vyhledávání — až limit dosáhneš (nebo narazíš na chybu vyhledávání), NEPIŠ, že "vyhledávání selhalo" a nezahazuj, co už jsi našel: napiš briefing z těch výsledků, které se ti podařilo získat, a jen u témat, ke kterým jsi se nedostal, řekni, že jsi to nestihl ověřit.
 
 {fmt}
 
 Na konec vždy: „⚠️ Nejsem finanční poradce; informativní shrnutí, ne investiční doporučení. Ceny orientační." """
 
+    # Pondělní deep-dive pokrývá víc témat (11 pozic + watchlist + makro + krypto) — nechává si
+    # plný search budget; denní přehled cíleně hledá jen výrazné pohyby, stačí míň.
+    max_uses = 8 if is_monday else 5
+    max_tokens = 8000 if is_monday else 4000
+
     client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
-    # max_tokens musí pokrýt i extended thinking + výsledky až 8 web searchů, ne jen finální text
-    kwargs = dict(model=config.MODEL, max_tokens=16000,
-                  messages=[{"role": "user", "content": prompt}])
+    kwargs = dict(
+        model=config.MODEL, max_tokens=max_tokens,
+        # Adaptivní thinking necháváme zapnutý (jen s nízkým effort) — bez něj model nemá
+        # soukromý "scratchpad" pro rozhodování mezi search voláními a svoje průběžné úvahy
+        # (“zkusím to po menších dávkách…”) píše rovnou do viditelného textu.
+        thinking={"type": "adaptive"},
+        output_config={"effort": "low"},
+        messages=[{"role": "user", "content": prompt}],
+    )
     try:
         resp = client.messages.create(
-            tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 8}],
+            # Novější _20260209 varianta filtruje výsledky přes interní code_execution, který si
+            # ale mezi koly neudrží stav — model si tak občas "zapomene" už stažené výsledky a
+            # zbytečně narazí na limit vyhledávání. Jednodušší _20250305 (přímý search bez
+            # meziskoku přes kód) je proto spolehlivější, i za cenu o něco vyšší spotřeby tokenů.
+            tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": max_uses}],
             **kwargs,
         )
     except Exception as e:
         print(f"web_search nedostupný ({e}) — píšu bez čerstvých novinek.")
         resp = client.messages.create(**kwargs)
 
-    text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
+    text = _final_text(resp.content)
     if not text:
         if resp.stop_reason == "max_tokens":
             print("Model doběhl na max_tokens bez finálního textu — zkouším bez web search.")
         else:
             print(f"Model nevrátil žádný text (stop_reason={resp.stop_reason}) — zkouším bez web search.")
         resp = client.messages.create(**kwargs)
-        text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
+        text = _final_text(resp.content)
     label = "deep-dive" if is_monday else "přehled"
     subject = f"📈 Portfolio {label} — {now.day}. {now.month}. {now.year}"
     return subject, text
