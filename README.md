@@ -58,6 +58,13 @@ vlastní rozhodnutí (co jsi udělal/neudělal a proč) — briefing ho čte jak
 navazuje na tvoje předchozí teze, aniž by je opakoval doslova. Formát a příklad je
 přímo v souboru.
 
+## Historie výkonu (`history.csv`)
+
+Každý běh přidá řádek s dnešní celkovou hodnotou portfolia. Pondělní deep-dive pak dostane
+jako **fakt z kódu** (ne odhad LLM) výkon za posledních 7 a 30 dní + textový trend
+(mini-graf). `history.csv` se po každém běhu commituje zpátky do repa přes GitHub Actions —
+runner je jinak po běhu smazaný a historie by se ztrácela. Necommituj/nemaž ho ručně.
+
 ## Poznámky / limity
 - yfinance je zdarma, ale neoficiální — občas může u nějakého tickeru vrátit prázdno; kód to ošetří a označí.
 - Plný auto-sync z brokerů (eToro atd.) není — holdings udržuješ ručně v `holdings.json`.

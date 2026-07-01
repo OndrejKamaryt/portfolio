@@ -8,7 +8,7 @@ import config
 WEEKDAYS_CZ = ["pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota", "neděle"]
 
 FORMAT_A = """### FORMÁT — Pondělní TÝDENNÍ DEEP-DIVE (markdown)
-1. **Snímek portfolia** — celková hodnota, nálada týdne.
+1. **Snímek portfolia** — celková hodnota, výkon za týden/měsíc (dodaná čísla, pokud jsou k dispozici) a trend, nálada týdne.
 2. **Novinky k pozicím** — rozděl na 🟢 Táhnou nahoru / 🔴 Pod tlakem / ⚪ Ostatní; ke každé 1–2 věty (novinka + dopad, použij dodané P/L).
 3. **Makro** — S&P 500, Fed/sazby, rizika, „co to znamená pro tebe".
 4. **Krypto** — BTC, ETH.
@@ -55,7 +55,7 @@ def _format_positions(positions):
     return "\n".join(lines)
 
 
-def build_briefing(data, now=None, decisions_log=""):
+def build_briefing(data, now=None, decisions_log="", perf_7d=None, perf_30d=None, spark=""):
     now = now or datetime.datetime.now(ZoneInfo(config.TIMEZONE))
     weekday = now.weekday()  # 0 = pondělí
     is_monday = weekday == 0
@@ -74,12 +74,26 @@ def build_briefing(data, now=None, decisions_log=""):
 Ondřejův rozhodovací deník (jeho vlastní minulé zápisy — NEOPAKUJ je, jen je zohledni, pokud jsou relevantní k dnešním novinkám, např. navazuj na dřívější tezi nebo uveď, že se něco změnilo):
 {decisions_log.strip()}"""
 
+    perf_bits = []
+    if perf_7d is not None:
+        perf_bits.append(f"za posledních 7 dní {perf_7d:+.2f} %")
+    if perf_30d is not None:
+        perf_bits.append(f"za posledních 30 dní {perf_30d:+.2f} %")
+    if perf_bits:
+        perf_block = "Výkon portfolia (spočítáno z historie, ber jako fakt): " + ", ".join(perf_bits) + "."
+        if spark:
+            perf_block += f" Trend hodnoty za posledních ~30 dní (nejstarší→nejnovější): {spark}"
+    else:
+        perf_block = "Historie výkonu zatím není k dispozici (jeden z prvních běhů nástroje) — nevymýšlej si výkon za období, drž se aktuálního snímku."
+
     prompt = f"""Jsi investiční asistent Ondřeje (25 let, dlouhý horizont, vysoká tolerance rizika → růstový profil). Napiš mu ranní portfolio v ČEŠTINĚ. Dnes je {day_name} {now:%d.%m.%Y}.
 
 ČÍSLA NÍŽE JSOU SPOČÍTANÁ Z REÁLNÝCH CEN — ber je jako fakta, nepřepočítávej je ani si nevymýšlej ceny/P&L. Tvým úkolem je dohledat NOVINKY (web search) a napsat text.
 
 Portfolio (celkem {data['total_czk']:.0f} Kč; kurz USD/CZK {data['usd_czk']}):
 {positions_block}
+
+{perf_block}
 
 Watchlist (jen sleduj, nekupuj): {wl}{decisions_block}
 

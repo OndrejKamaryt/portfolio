@@ -10,6 +10,7 @@ import config
 import prices
 import briefing
 import emailer
+import history
 
 
 def _load_decisions_log(path):
@@ -40,7 +41,13 @@ def main():
     decisions_log = _load_decisions_log(pathlib.Path("decisions.md"))
 
     data = prices.enrich(holdings)
-    subject, text = briefing.build_briefing(data, now, decisions_log)
+
+    history.append(now.date(), data["total_czk"])
+    perf_7d = history.performance(data["total_czk"], now, 7)
+    perf_30d = history.performance(data["total_czk"], now, 30)
+    spark = history.sparkline()
+
+    subject, text = briefing.build_briefing(data, now, decisions_log, perf_7d, perf_30d, spark)
 
     out_dir = pathlib.Path("briefings")
     out_dir.mkdir(exist_ok=True)
