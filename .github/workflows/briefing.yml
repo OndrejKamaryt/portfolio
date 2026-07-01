@@ -1,0 +1,26 @@
+name: Portfolio briefing
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # 08:00 Praha v létě (CEST = UTC+2)
+    - cron: "0 7 * * *"   # 08:00 Praha v zimě (CET = UTC+1)
+  workflow_dispatch:       # ruční spuštění tlačítkem "Run workflow"
+
+jobs:
+  briefing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python main.py
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          MODEL: ${{ secrets.MODEL }}
+          # Ruční spuštění ignoruje hodinovou pojistku (pošle hned):
+          FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}

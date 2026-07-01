@@ -1,0 +1,27 @@
+{
+  "base_currency": "CZK",
+  "_comment": "mode 'priced' = živá cena z yfinance (potřebuje symbol, units, avg_cost). mode 'manual' = ruční hodnota v CZK (doplň units+symbol, pokud chceš i u ETF živé ceny). avg_cost a units jsou stabilní kotvy — uprav, když dokoupíš/prodáš.",
+  "positions": [
+    {"broker": "eToro", "symbol": "VOO",     "name": "Vanguard S&P 500 ETF", "type": "ETF",    "units": 8.35791,   "avg_cost": 419.10, "currency": "USD", "mode": "priced"},
+    {"broker": "eToro", "symbol": "SPOT",    "name": "Spotify Technology",   "type": "Akcie",  "units": 2.935,     "avg_cost": 197.24, "currency": "USD", "mode": "priced"},
+    {"broker": "eToro", "symbol": "TWLO",    "name": "Twilio",               "type": "Akcie",  "units": 3.71609,   "avg_cost": 109.86, "currency": "USD", "mode": "priced"},
+    {"broker": "eToro", "symbol": "IMAX",    "name": "IMAX Corp",            "type": "Akcie",  "units": 15.26094,  "avg_cost": 24.16,  "currency": "USD", "mode": "priced"},
+    {"broker": "eToro", "symbol": "WIX",     "name": "Wix.com",              "type": "Akcie",  "units": 11.48665,  "avg_cost": 171.70, "currency": "USD", "mode": "priced"},
+    {"broker": "eToro", "symbol": "HUBS",    "name": "HubSpot",              "type": "Akcie",  "units": 2.49165,   "avg_cost": 528.82, "currency": "USD", "mode": "priced"},
+    {"broker": "eToro", "symbol": "0700.HK", "name": "Tencent Holdings",     "type": "Akcie",  "units": 6.622996,  "avg_cost": 504.50, "currency": "HKD", "mode": "priced"},
+    {"broker": "eToro", "symbol": "PLTR",    "name": "Palantir Technologies","type": "Akcie",  "units": 1.86804,   "avg_cost": 176.10, "currency": "USD", "mode": "priced"},
+    {"broker": "XTB",   "symbol": "HOOD",    "name": "Robinhood Markets",    "type": "Akcie",  "units": 5.2927,    "avg_cost": 74.62,  "currency": "USD", "mode": "priced"},
+    {"broker": "Coinbase", "symbol": "BTC-USD", "name": "Bitcoin",  "type": "Krypto", "units": 0.01174381, "avg_cost": 29850, "currency": "USD", "mode": "priced"},
+    {"broker": "Coinbase", "symbol": "ETH-USD", "name": "Ethereum", "type": "Krypto", "units": 0.08195907, "avg_cost": 1733,  "currency": "USD", "mode": "priced"},
+
+    {"broker": "XTB", "name": "Xtrackers MSCI World Info Tech", "type": "ETF",  "value_czk": 20223.26, "currency": "CZK", "mode": "manual", "note": "doplň symbol+units (např. XDWT.DE) pro živou cenu"},
+    {"broker": "XTB", "name": "iShares Core MSCI World",        "type": "ETF",  "value_czk": 18252.90, "currency": "CZK", "mode": "manual", "note": "např. EUNL.DE / IWDA.AS"},
+    {"broker": "XTB", "name": "iShares Core S&P 500",           "type": "ETF",  "value_czk": 18646.40, "currency": "CZK", "mode": "manual", "note": "např. SXR8.DE / CSPX.L"},
+    {"broker": "ČS",  "name": "Amundi Prime All Country World", "type": "ETF",  "value_czk": 4303.22,  "currency": "CZK", "mode": "manual", "note": "pravidelný nákup €100/měs (IE0003XJA0J9)"},
+
+    {"broker": "eToro", "name": "Sberbank (SBER.MOEX)", "type": "Akcie", "value_czk": 0.0, "currency": "CZK", "mode": "manual", "note": "zmrazená ruská pozice, nelze obchodovat — odpis"},
+    {"broker": "eToro", "name": "Hotovost",             "type": "Cash",  "value_czk": 914.75,   "currency": "CZK", "mode": "manual"},
+    {"broker": "XTB",   "name": "Hotovost (volné + rezerva)", "type": "Cash", "value_czk": 52112.28, "currency": "CZK", "mode": "manual", "note": "auto-invest 8000 Kč/měs"}
+  ],
+  "watchlist": ["NVDA", "AVGO", "MU"]
+}
