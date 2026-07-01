@@ -14,13 +14,24 @@ FORMAT_A = """### FORMÁT — Pondělní TÝDENNÍ DEEP-DIVE (markdown)
 4. **Krypto** — BTC, ETH.
 5. **Doporučení (1–3 tituly s tezí)** — chytře podle portfolia (silně SaaS/tech, chybí AI hardware/diverzifikace). Ke každému: teze ve 2 větách + ⚔️ **Nejsilnější protiargument** (nejpřesvědčivější důvod, proč by tahle sázka mohla NEVYJÍT — ne obecné riziko jako "je to volatilní", ale konkrétní scénář/fakt, který tezi rozporuje). Klidně aktualizuj watchlist místo honění nových nápadů.
 6. **Watchlist update** — kde stojí NVDA/AVGO/MU a jestli je něco blíž k akci.
-7. **Co zvážit** — 2–4 postřehy (dry powder ~52k ladem, koncentrace do SaaS, konkrétní pozice k rozhodnutí)."""
+7. **Co zvážit** — 2–4 postřehy (dry powder ~52k ladem, koncentrace do SaaS, konkrétní pozice k rozhodnutí).
+8. **Swingový nápad** — {swing}"""
 
 FORMAT_B = """### FORMÁT — KRÁTKÝ DENNÍ PŘEHLED (markdown, stručně)
 1. **Nálada trhu** — 1–2 řádky (S&P 500, hlavní overnight pohyb, krypto).
 2. **Co se hýbe u tebe** — JEN pozice/watchlist s významným pohybem (~3 %+ za den), zprávou nebo výsledky. Když je klid, napiš jedním řádkem „Klidné ráno, nic zásadního." a nevymýšlej obsah.
 3. **Tento týden** — nadcházející earnings/události u tvých pozic, pokud jsou.
-Žádná nová doporučení (ta jsou pondělní), leda watchlist trigger."""
+4. **Swingový nápad** — {swing}
+Žádná jiná nová doporučení (ta jsou pondělní), leda watchlist trigger."""
+
+SWING_INSTRUCTION = (
+    'JEN pokud je opravdu přesvědčivý (konkrétní krátkodobý katalyzátor — čerstvé výsledky, '
+    'technický setup, událost, silný news flow), ne evergreen investiční teze. Jinak napiš '
+    'jedním řádkem „Žádný přesvědčivý swing setup" a nic nevymýšlej. Klidně mimo portfolio i '
+    'watchlist. Když ho uvedeš: ticker, proč zrovna teď (1–2 věty), časový rámec (dny až pár '
+    'týdnů), úroveň/scénář kdy by teze byla vyvrácená (invalidace), a ⚔️ **Nejsilnější '
+    'protiargument**. Je to nápad k úvaze, ne pokyn k obchodu.'
+)
 
 
 def _format_positions(positions):
@@ -49,7 +60,7 @@ def build_briefing(data, now=None, decisions_log=""):
     weekday = now.weekday()  # 0 = pondělí
     is_monday = weekday == 0
     day_name = WEEKDAYS_CZ[weekday]
-    fmt = FORMAT_A if is_monday else FORMAT_B
+    fmt = (FORMAT_A if is_monday else FORMAT_B).format(swing=SWING_INSTRUCTION)
 
     wl = ", ".join(
         f"{w['symbol']} ({w.get('price')}, den {w.get('day_change_pct')}%)" for w in data["watchlist"]
