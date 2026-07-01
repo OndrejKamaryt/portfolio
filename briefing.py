@@ -72,7 +72,8 @@ Přes web search dohledej k jednotlivým akciím, krypto, watchlistu a makru (S&
 Na konec vždy: „⚠️ Nejsem finanční poradce; informativní shrnutí, ne investiční doporučení. Ceny orientační." """
 
     client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
-    kwargs = dict(model=config.MODEL, max_tokens=4000,
+    # max_tokens musí pokrýt i extended thinking + výsledky až 8 web searchů, ne jen finální text
+    kwargs = dict(model=config.MODEL, max_tokens=16000,
                   messages=[{"role": "user", "content": prompt}])
     try:
         resp = client.messages.create(
@@ -84,6 +85,13 @@ Na konec vždy: „⚠️ Nejsem finanční poradce; informativní shrnutí, ne 
         resp = client.messages.create(**kwargs)
 
     text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
+    if not text:
+        if resp.stop_reason == "max_tokens":
+            print("Model doběhl na max_tokens bez finálního textu — zkouším bez web search.")
+        else:
+            print(f"Model nevrátil žádný text (stop_reason={resp.stop_reason}) — zkouším bez web search.")
+        resp = client.messages.create(**kwargs)
+        text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
     label = "deep-dive" if is_monday else "přehled"
     subject = f"📈 Portfolio {label} — {now.day}. {now.month}. {now.year}"
     return subject, text
