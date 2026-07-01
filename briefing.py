@@ -12,7 +12,7 @@ FORMAT_A = """### FORMÁT — Pondělní TÝDENNÍ DEEP-DIVE (markdown)
 2. **Novinky k pozicím** — rozděl na 🟢 Táhnou nahoru / 🔴 Pod tlakem / ⚪ Ostatní; ke každé 1–2 věty (novinka + dopad, použij dodané P/L).
 3. **Makro** — S&P 500, Fed/sazby, rizika, „co to znamená pro tebe".
 4. **Krypto** — BTC, ETH.
-5. **Doporučení (1–3 tituly s tezí)** — chytře podle portfolia (silně SaaS/tech, chybí AI hardware/diverzifikace). Ke každému teze ve 2 větách + hlavní riziko. Klidně aktualizuj watchlist místo honění nových nápadů.
+5. **Doporučení (1–3 tituly s tezí)** — chytře podle portfolia (silně SaaS/tech, chybí AI hardware/diverzifikace). Ke každému: teze ve 2 větách + ⚔️ **Nejsilnější protiargument** (nejpřesvědčivější důvod, proč by tahle sázka mohla NEVYJÍT — ne obecné riziko jako "je to volatilní", ale konkrétní scénář/fakt, který tezi rozporuje). Klidně aktualizuj watchlist místo honění nových nápadů.
 6. **Watchlist update** — kde stojí NVDA/AVGO/MU a jestli je něco blíž k akci.
 7. **Co zvážit** — 2–4 postřehy (dry powder ~52k ladem, koncentrace do SaaS, konkrétní pozice k rozhodnutí)."""
 
@@ -44,7 +44,7 @@ def _format_positions(positions):
     return "\n".join(lines)
 
 
-def build_briefing(data, now=None):
+def build_briefing(data, now=None, decisions_log=""):
     now = now or datetime.datetime.now(ZoneInfo(config.TIMEZONE))
     weekday = now.weekday()  # 0 = pondělí
     is_monday = weekday == 0
@@ -56,6 +56,13 @@ def build_briefing(data, now=None):
     )
     positions_block = _format_positions(data["positions"])
 
+    decisions_block = ""
+    if decisions_log.strip():
+        decisions_block = f"""
+
+Ondřejův rozhodovací deník (jeho vlastní minulé zápisy — NEOPAKUJ je, jen je zohledni, pokud jsou relevantní k dnešním novinkám, např. navazuj na dřívější tezi nebo uveď, že se něco změnilo):
+{decisions_log.strip()}"""
+
     prompt = f"""Jsi investiční asistent Ondřeje (25 let, dlouhý horizont, vysoká tolerance rizika → růstový profil). Napiš mu ranní portfolio v ČEŠTINĚ. Dnes je {day_name} {now:%d.%m.%Y}.
 
 ČÍSLA NÍŽE JSOU SPOČÍTANÁ Z REÁLNÝCH CEN — ber je jako fakta, nepřepočítávej je ani si nevymýšlej ceny/P&L. Tvým úkolem je dohledat NOVINKY (web search) a napsat text.
@@ -63,7 +70,7 @@ def build_briefing(data, now=None):
 Portfolio (celkem {data['total_czk']:.0f} Kč; kurz USD/CZK {data['usd_czk']}):
 {positions_block}
 
-Watchlist (jen sleduj, nekupuj): {wl}
+Watchlist (jen sleduj, nekupuj): {wl}{decisions_block}
 
 Přes web search dohledej k jednotlivým akciím, krypto, watchlistu a makru (S&P 500, Fed, sazby) nejnovější zprávy (posledních ~24–72 h): výsledky, výhledy, analytická doporučení, velké pohyby, nadcházející katalyzátory. NIKDY si zprávy nevymýšlej — když k něčemu nic nenajdeš, napiš to.
 

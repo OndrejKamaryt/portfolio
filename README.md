@@ -50,6 +50,14 @@ Vše je v **`holdings.json`**:
   Přidej `symbol` (např. `XDWT.DE`, `EUNL.DE`, `SXR8.DE`) + `units` a přepni na `priced`.
 - **Watchlist**: uprav pole `watchlist` (tickery, které jen sleduješ).
 
+## Rozhodovací deník (`decisions.md`)
+
+Slouží jako druhý názor, ne autopilot: pondělní deep-dive u doporučení vždy uvádí i
+**⚔️ nejsilnější protiargument**, ne jen obecné riziko. Do `decisions.md` si zapisuj
+vlastní rozhodnutí (co jsi udělal/neudělal a proč) — briefing ho čte jako kontext a
+navazuje na tvoje předchozí teze, aniž by je opakoval doslova. Formát a příklad je
+přímo v souboru.
+
 ## Poznámky / limity
 - yfinance je zdarma, ale neoficiální — občas může u nějakého tickeru vrátit prázdno; kód to ošetří a označí.
 - Plný auto-sync z brokerů (eToro atd.) není — holdings udržuješ ručně v `holdings.json`.

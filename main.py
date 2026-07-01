@@ -2,6 +2,7 @@
 import json
 import os
 import pathlib
+import re
 import datetime
 from zoneinfo import ZoneInfo
 
@@ -9,6 +10,17 @@ import config
 import prices
 import briefing
 import emailer
+
+
+def _load_decisions_log(path):
+    """Vytáhne jen skutečné zápisy (nadpisy '## ') z decisions.md, mimo HTML komentáře
+    (šablona/příklad v souboru jsou zabalené v <!-- --> a nemají se posílat jako fakt)."""
+    if not path.exists():
+        return ""
+    text = re.sub(r"<!--.*?-->", "", path.read_text(encoding="utf-8"), flags=re.DOTALL)
+    # jen nadpisy se skutečným datem (RRRR-MM-DD) — vyloučí šablonu/placeholder v souboru
+    entries = re.findall(r"^## \d{4}-\d{2}-\d{2}.*(?:\n(?!## ).*)*", text, flags=re.MULTILINE)
+    return "\n\n".join(e.strip() for e in entries)
 
 
 def main():
@@ -25,8 +37,10 @@ def main():
     with open("holdings.json", encoding="utf-8") as f:
         holdings = json.load(f)
 
+    decisions_log = _load_decisions_log(pathlib.Path("decisions.md"))
+
     data = prices.enrich(holdings)
-    subject, text = briefing.build_briefing(data, now)
+    subject, text = briefing.build_briefing(data, now, decisions_log)
 
     out_dir = pathlib.Path("briefings")
     out_dir.mkdir(exist_ok=True)
