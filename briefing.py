@@ -1,5 +1,6 @@
 """Sestavení briefingu: čísla počítá Python, novinky a text dělá Claude přes web search."""
 import datetime
+import re
 from zoneinfo import ZoneInfo
 
 import anthropic
@@ -15,13 +16,15 @@ FORMAT_A = """### FORMÁT — Pondělní TÝDENNÍ DEEP-DIVE (markdown)
 5. **Doporučení (1–3 tituly s tezí)** — chytře podle portfolia (silně SaaS/tech, chybí AI hardware/diverzifikace). Ke každému: teze ve 2 větách + ⚔️ **Nejsilnější protiargument** (nejpřesvědčivější důvod, proč by tahle sázka mohla NEVYJÍT — ne obecné riziko jako "je to volatilní", ale konkrétní scénář/fakt, který tezi rozporuje). Klidně aktualizuj watchlist místo honění nových nápadů.
 6. **Watchlist update** — kde stojí NVDA/AVGO/MU a jestli je něco blíž k akci.
 7. **Co zvážit** — 2–4 postřehy (dry powder ~52k ladem, koncentrace do SaaS, konkrétní pozice k rozhodnutí).
-8. **Swingový nápad** — {swing}"""
+8. **Swingový nápad** — {swing}
+9. **📚 Pojem k tématu** — {edu}"""
 
 FORMAT_B = """### FORMÁT — KRÁTKÝ DENNÍ PŘEHLED (markdown, stručně)
 1. **Nálada trhu** — 1–2 řádky (S&P 500, hlavní overnight pohyb, krypto).
 2. **Co se hýbe u tebe** — JEN pozice/watchlist s významným pohybem (~3 %+ za den), zprávou nebo výsledky. Když je klid, napiš jedním řádkem „Klidné ráno, nic zásadního." a nevymýšlej obsah.
 3. **Tento týden** — nadcházející earnings/události u tvých pozic, pokud jsou.
 4. **Swingový nápad** — {swing}
+5. **📚 Pojem k tématu** — {edu}
 Žádná jiná nová doporučení (ta jsou pondělní), leda watchlist trigger."""
 
 SWING_INSTRUCTION = (
@@ -32,6 +35,26 @@ SWING_INSTRUCTION = (
     'týdnů), úroveň/scénář kdy by teze byla vyvrácená (invalidace), a ⚔️ **Nejsilnější '
     'protiargument**. Je to nápad k úvaze, ne pokyn k obchodu.'
 )
+
+EDU_INSTRUCTION = (
+    'Vyber JEDEN konkrétní pojem/koncept, který se dnes v textu výše opravdu objevil (ne '
+    'náhodná definice odjinud) — např. "forward P/E", "buyback", "guidance", "short interest", '
+    '"dry powder", "market cap"... Vysvětli ho jednoduše, jako úplnému začátečníkovi, ve 2–4 '
+    'větách, a pokud to jde, ukaž ho na konkrétním čísle/situaci z Ondřejova portfolia z dnešního '
+    'textu. Nepoužívej pojem ze seznamu už vysvětlených níže — vyber jiný, i kdyby byl míň '
+    'zřejmý.'
+)
+
+TERM_MARKER_RE = re.compile(r"^\s*TERM_USED:\s*(.+?)\s*$", re.MULTILINE)
+
+
+def _extract_term(text):
+    """Vytáhne a odstraní řádek 'TERM_USED: ...', který si model přidá na konec pro evidenci
+    (glossary.py), aby se ho v e-mailu nezobrazil doslova."""
+    m = TERM_MARKER_RE.search(text)
+    if not m:
+        return text.strip(), None
+    return TERM_MARKER_RE.sub("", text).strip(), m.group(1).strip()
 
 
 def _final_text(content):
@@ -68,12 +91,13 @@ def _format_positions(positions):
     return "\n".join(lines)
 
 
-def build_briefing(data, now=None, decisions_log="", perf_7d=None, perf_30d=None, spark=""):
+def build_briefing(data, now=None, decisions_log="", perf_7d=None, perf_30d=None, spark="",
+                    glossary_terms=""):
     now = now or datetime.datetime.now(ZoneInfo(config.TIMEZONE))
     weekday = now.weekday()  # 0 = pondělí
     is_monday = weekday == 0
     day_name = WEEKDAYS_CZ[weekday]
-    fmt = (FORMAT_A if is_monday else FORMAT_B).format(swing=SWING_INSTRUCTION)
+    fmt = (FORMAT_A if is_monday else FORMAT_B).format(swing=SWING_INSTRUCTION, edu=EDU_INSTRUCTION)
 
     wl = ", ".join(
         f"{w['symbol']} ({w.get('price')}, den {w.get('day_change_pct')}%)" for w in data["watchlist"]
@@ -99,6 +123,10 @@ Ondřejův rozhodovací deník (jeho vlastní minulé zápisy — NEOPAKUJ je, j
     else:
         perf_block = "Historie výkonu zatím není k dispozici (jeden z prvních běhů nástroje) — nevymýšlej si výkon za období, drž se aktuálního snímku."
 
+    glossary_block = ""
+    if glossary_terms.strip():
+        glossary_block = f"\n\nUž vysvětlené pojmy (v sekci „Pojem k tématu“ NEOPAKUJ, vyber jiný): {glossary_terms.strip()}"
+
     prompt = f"""Jsi investiční asistent Ondřeje (25 let, dlouhý horizont, vysoká tolerance rizika → růstový profil). Napiš mu ranní portfolio v ČEŠTINĚ. Dnes je {day_name} {now:%d.%m.%Y}.
 
 ČÍSLA NÍŽE JSOU SPOČÍTANÁ Z REÁLNÝCH CEN — ber je jako fakta, nepřepočítávej je ani si nevymýšlej ceny/P&L. Tvým úkolem je dohledat NOVINKY (web search) a napsat text.
@@ -108,13 +136,19 @@ Portfolio (celkem {data['total_czk']:.0f} Kč; kurz USD/CZK {data['usd_czk']}):
 
 {perf_block}
 
-Watchlist (jen sleduj, nekupuj): {wl}{decisions_block}
+Watchlist (jen sleduj, nekupuj): {wl}{decisions_block}{glossary_block}
 
 Přes web search dohledej k jednotlivým akciím, krypto, watchlistu a makru (S&P 500, Fed, sazby) nejnovější zprávy (posledních ~24–72 h): výsledky, výhledy, analytická doporučení, velké pohyby, nadcházející katalyzátory. NIKDY si zprávy nevymýšlej — když k něčemu nic nenajdeš, napiš to. Máš omezený počet vyhledávání — až limit dosáhneš (nebo narazíš na chybu vyhledávání), NEPIŠ, že "vyhledávání selhalo" a nezahazuj, co už jsi našel: napiš briefing z těch výsledků, které se ti podařilo získat, a jen u témat, ke kterým jsi se nedostal, řekni, že jsi to nestihl ověřit.
 
+Tvoje ÚPLNĚ POSLEDNÍ zpráva (ta, co se pošle jako e-mail) musí začínat rovnou nadpisem/obsahem briefingu — žádné meta-komentáře k procesu jako "mám dost materiálu, píšu briefing" nebo "teď to sepíšu".
+
 {fmt}
 
-Na konec vždy: „⚠️ Nejsem finanční poradce; informativní shrnutí, ne investiční doporučení. Ceny orientační." """
+Na konec vždy: „⚠️ Nejsem finanční poradce; informativní shrnutí, ne investiční doporučení. Ceny orientační."
+
+A za úplný samotný konec, na nový řádek, napiš přesně ve formátu
+`TERM_USED: <pojem z bodu „Pojem k tématu“, 1–4 slova, bez uvozovek>` — tenhle řádek je jen pro
+interní evidenci, systém ho z e-mailu automaticky odstraní."""
 
     # Pondělní deep-dive pokrývá víc témat (11 pozic + watchlist + makro + krypto) — nechává si
     # plný search budget; denní přehled cíleně hledá jen výrazné pohyby, stačí míň.
@@ -152,6 +186,7 @@ Na konec vždy: „⚠️ Nejsem finanční poradce; informativní shrnutí, ne 
             print(f"Model nevrátil žádný text (stop_reason={resp.stop_reason}) — zkouším bez web search.")
         resp = client.messages.create(**kwargs)
         text = _final_text(resp.content)
+    text, term = _extract_term(text)
     label = "deep-dive" if is_monday else "přehled"
     subject = f"📈 Portfolio {label} — {now.day}. {now.month}. {now.year}"
-    return subject, text
+    return subject, text, term

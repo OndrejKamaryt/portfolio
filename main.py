@@ -11,6 +11,7 @@ import prices
 import briefing
 import emailer
 import history
+import glossary
 
 
 def _load_decisions_log(path):
@@ -47,7 +48,11 @@ def main():
     perf_30d = history.performance(data["total_czk"], now, 30)
     spark = history.sparkline()
 
-    subject, text = briefing.build_briefing(data, now, decisions_log, perf_7d, perf_30d, spark)
+    glossary_terms = glossary.recent()
+    subject, text, term = briefing.build_briefing(
+        data, now, decisions_log, perf_7d, perf_30d, spark, glossary_terms
+    )
+    glossary.append(now.date(), term)
 
     out_dir = pathlib.Path("briefings")
     out_dir.mkdir(exist_ok=True)
