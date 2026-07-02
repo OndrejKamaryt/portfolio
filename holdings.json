@@ -21,7 +21,7 @@
 
     {"broker": "eToro", "name": "Sberbank (SBER.MOEX)", "type": "Akcie", "value_czk": 0.0, "currency": "CZK", "mode": "manual", "note": "zmrazená ruská pozice, nelze obchodovat — odpis"},
     {"broker": "eToro", "name": "Hotovost",             "type": "Cash",  "value_czk": 914.75,   "currency": "CZK", "mode": "manual"},
-    {"broker": "XTB",   "name": "Hotovost (volné + rezerva)", "type": "Cash", "value_czk": 52112.28, "currency": "CZK", "mode": "manual", "note": "8000 Kč/měs z tohohle jde rovnou do 3 ETF výše (rovnoměrně), zbytek je rezerva"}
+    {"broker": "XTB",   "name": "Hotovost (volné + rezerva)", "type": "Cash", "value_czk": 52112.28, "currency": "CZK", "mode": "manual", "note": "měsíční pohyb: +4000 Kč vlastní vklad, -8000 Kč auto-invest do 3 ETF výše (rovnoměrně) — čistě -4000 Kč/měs, zbytek je rezerva"}
   ],
   "watchlist": ["NVDA", "AVGO", "MU"]
 }
