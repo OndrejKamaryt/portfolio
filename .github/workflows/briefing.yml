@@ -27,11 +27,12 @@ jobs:
           MODEL: ${{ secrets.MODEL }}
           # Ruční spuštění ignoruje hodinovou pojistku (pošle hned):
           FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
-      # history.csv a glossary.md žijí jen v repu (runner je po běhu smazaný) — commitni je zpátky.
-      - name: Commit updated history.csv / glossary.md
+      # history.csv, glossary.md a docs/ (statický web) žijí jen v repu (runner je po běhu
+      # smazaný) — commitni je zpátky. docs/ je zdroj pro GitHub Pages.
+      - name: Commit updated history.csv / glossary.md / docs
         run: |
           git config user.name "portfolio-briefing-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add history.csv glossary.md
-          git diff --cached --quiet || git commit -m "Update portfolio history / glossary [skip ci]"
+          git add history.csv glossary.md docs
+          git diff --cached --quiet || git commit -m "Update portfolio history / glossary / web [skip ci]"
           git push

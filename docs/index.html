@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Briefing</title>
+<meta name="robots" content="noindex">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, Segoe UI, Arial, sans-serif; max-width: 900px;
+          margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+  h1 { margin-bottom: 0.2rem; }
+  .updated { color: #888; font-size: 0.9rem; margin-bottom: 2rem; }
+  .total { font-size: 1.8rem; font-weight: 700; }
+  section { margin: 2.5rem 0; }
+  .chart-box { max-width: 100%; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.3rem 0.6rem; border-bottom: 1px solid #ddd; }
+  ul.terms { padding-left: 1.2rem; }
+  ul.terms time { color: #888; font-size: 0.85rem; }
+  .briefing { background: rgba(127,127,127,0.08); border-radius: 8px; padding: 1rem 1.5rem; }
+  .disclaimer { font-size: 0.85rem; color: #888; margin-top: 3rem; }
+</style>
+</head>
+<body>
+<h1>📈 Portfolio Briefing</h1>
+<p class="updated">Naposledy aktualizováno 02.07.2026 10:23 (Praha) · <span class="total">359,419 Kč</span></p>
+
+<section>
+  <h2>Vývoj hodnoty portfolia</h2>
+  <div class="chart-box"><canvas id="historyChart"></canvas></div>
+</section>
+
+<section>
+  <h2>Aktuální alokace</h2>
+  <div class="chart-box" style="max-width:420px"><canvas id="allocChart"></canvas></div>
+</section>
+
+<section>
+  <h2>📈 Portfolio přehled — 2. 7. 2026</h2>
+  <div class="briefing"><h1>🌅 Ranní portfolio briefing — čtvrtek 2. 7. 2026</h1>
+<h2>1. Nálada trhu</h2>
+<p>Trhy pokračují v opatrném rotačním režimu: Nasdaq klesl, protože investoři prodávali polovodičová jména a bral zisky po růstu přes 80 % v první polovině roku 2026, přičemž Micron propadl přes 10 %. Zároveň Dow Jones zaznamenal nové historické maximum a malé kapitalizace (Russell 2000) zahájily nový kvartál na historickém maximu — obraz trhu je tedy „rotace z AI hardwaru do softwaru a jinam", ne plošný risk-off. Krypto (BTC, ETH) je dnes klidné, bez výrazného pohybu.</p>
+<h2>2. Co se hýbe u tebe</h2>
+<ul>
+<li><strong>Robinhood (HOOD, +8,35 %)</strong> – pokračující rally: akcie posílily o 4,7 % v premarketu na rekordní objemy prediction marketů spojených s MS ve fotbale 2026 a nová vlna býčích hodnocení analytiků. HOOD je nyní 70 % nad letošním minimem a blíží se prvnímu „golden crossu" od roku 2023. Deutsche Bank i Goldman Sachs dnes zvýšily cílové ceny.</li>
+<li><strong>Palantir (PLTR, +7,77 %)</strong> – silné býčí momentum – akcie rostou, protože investoři se vracejí do AI softwarových titulů, plus nová partnerství s Nvidií a zpráva, že Michael Burry snížil svou shortovou pozici. Nejbližší earnings odhadem 3. 8. 2026.</li>
+<li><strong>Wix (WIX, +7,74 %)</strong> – aktuální zprávy potvrzují extrémní volatilitu titulu (Wix.com sees $25M reduction in FY26 revenue due to organizational realignment, propouštění 20 % zaměstnanců koncem května), ale k dnešnímu konkrétnímu skoku jsem nenašel čerstvou zprávu z posledních 24 h – může jít o technický odraz po sérii downgradů (JPMorgan, Wells Fargo, Citi v červnu snižovaly cíle).</li>
+<li><strong>HubSpot (+2,85 %) a Twilio (+1,43 %)</strong> – mírně v zeleném, žádná konkrétní čerstvá zpráva nalezena.</li>
+<li><strong>Watchlist – Micron (MU, -10,57 %)</strong>: Micron reportoval fiskální Q3 2026 tržby 41,46 mld. USD, meziročně +346 %, s výhledem na Q4 na 50 mld. USD – propad je čistě profit-taking po parabolickém růstu, ne špatná zpráva. Makro pozadí zhoršila zmínka Fedu z Clevelandu o možném zvýšení sazeb a nový šéf Fedu Kevin Warsh nenabídl holubičí uklidnění, což srazilo celý čipový sektor.</li>
+</ul>
+<h2>3. Tento týden</h2>
+<ul>
+<li>Robinhood: příští čtvrtletní výsledky odhadem <strong>29. 7. 2026</strong>.</li>
+<li>Palantir: další earnings odhadem <strong>3. 8. 2026</strong> (mimo tento týden, ale sleduj).</li>
+<li>Micron/SanDisk/Western Digital: nejbližšími katalyzátory jsou červnová zpráva o pracovních místech tento týden a nadcházející výsledky SanDisku a Western Digital.</li>
+</ul>
+<h2>4. Swingový nápad</h2>
+<p><strong>Robinhood (HOOD)</strong> – krátkodobě zajímavý setup: akcie se blíží prvnímu golden crossu od roku 2023, s 50denním EMA na 89,50 USD a 200denním na 90,10 USD, které se sbíhají, navíc podpořeno čerstvými zvýšeními cílových cen od Deutsche Bank a Goldman Sachs. Časový rámec: dny až 2-3 týdny do potvrzení/vyvrácení křížení. Invalidace: propad zpět pod ~85 USD by scénář golden crossu zrušil. ⚔️ <strong>Nejsilnější protiargument</strong>: titul je letos pod tlakem (-27 % YTD po zklamání Q1) a nyní se obchoduje jako růstová akcie, ale ne jako čistá momentum hra — technický vzorec sám o sobě fundamenty nezmění a po prudkém běhu hrozí rychlá korekce zisků.</p>
+<h2>📚 Pojem k tématu: Golden cross</h2>
+<p>„Golden cross" je technický signál, který nastává, když krátkodobý klouzavý průměr (typicky 50denní) protne směrem nahoru dlouhodobější průměr (200denní) – signál, že se v akcii nastartoval býčí trend. U tebe je to aktuálně relevantní u Robinhoodu (HOOD), kde se 50denní a 200denní průměr právě sbíhají kolem 89–90 USD. Není to záruka budoucího růstu, jen statistický vzorec, který traderům signalizuje zlepšující se momentum – vždy je potřeba potvrzení dalšími daty.</p>
+<p>⚠️ Nejsem finanční poradce; informativní shrnutí, ne investiční doporučení. Ceny orientační.</p></div>
+</section>
+
+<section>
+  <h2>📚 Archiv vysvětlených pojmů</h2>
+  <ul class="terms"><li><time>2026-07-02</time> — golden cross</li></ul>
+</section>
+
+<p class="disclaimer">⚠️ Nejsem finanční poradce; informativní shrnutí, ne investiční doporučení. Ceny orientační.</p>
+
+<script>
+new Chart(document.getElementById('historyChart'), {
+  type: 'line',
+  data: {
+    labels: ["2026-07-01", "2026-07-02", "2026-07-02", "2026-07-02", "2026-07-02"],
+    datasets: [{
+      label: 'Hodnota portfolia (Kč)',
+      data: [357824.21, 359419.23, 360117.96, 360127.85, 360218.98],
+      borderColor: '#2b7fff',
+      backgroundColor: 'rgba(43,127,255,0.1)',
+      fill: true,
+      tension: 0.2,
+      pointRadius: 2,
+    }],
+  },
+  options: { scales: { y: { beginAtZero: false } } },
+});
+
+new Chart(document.getElementById('allocChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ["Vanguard S&P 500 ETF", "Hotovost (voln\u00e9 + rezerva)", "Spotify Technology", "Xtrackers MSCI World Info Tech", "iShares Core S&P 500", "iShares Core MSCI World", "Twilio", "Bitcoin", "IMAX Corp", "Robinhood Markets", "Wix.com", "HubSpot", "Tencent Holdings", "Palantir Technologies", "Amundi Prime All Country World", "Ethereum", "Hotovost"],
+    datasets: [{ data: [33.8, 14.5, 8.18, 5.63, 5.19, 5.08, 4.59, 4.18, 3.64, 3.39, 3.31, 2.76, 2.14, 1.39, 1.2, 0.78, 0.25] }],
+  },
+});
+</script>
+</body>
+</html>

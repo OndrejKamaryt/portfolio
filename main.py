@@ -12,6 +12,7 @@ import briefing
 import emailer
 import history
 import glossary
+import dashboard
 
 
 def _load_decisions_log(path):
@@ -62,6 +63,9 @@ def main():
 
     ok, msg = emailer.send_email(subject, text)
     print("E-mail odeslán ✓" if ok else f"E-mail neodeslán: {msg}")
+
+    dashboard.build(data, subject, text, now)
+    print("Web (docs/index.html) aktualizován")
 
 
 if __name__ == "__main__":

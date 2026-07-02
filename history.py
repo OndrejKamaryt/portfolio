@@ -33,6 +33,11 @@ def _rows():
     return sorted(out)
 
 
+def all_rows():
+    """Všechny záznamy (date, total_czk), od nejstaršího — pro graf na webu."""
+    return _rows()
+
+
 def performance(current_total, now, days):
     """% změna current_total vůči nejbližšímu záznamu starému aspoň `days` dní, nebo None."""
     target = now.date() - datetime.timedelta(days=days)

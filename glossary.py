@@ -14,6 +14,18 @@ def recent(n=15):
     return ", ".join(terms[-n:])
 
 
+def all_entries():
+    """Všechny zápisy jako [(datum, pojem), ...], od nejstaršího — pro archiv na webu."""
+    if not PATH.exists():
+        return []
+    out = []
+    for line in PATH.read_text(encoding="utf-8").splitlines():
+        if line.startswith("- ") and ": " in line:
+            date_str, term = line[2:].split(": ", 1)
+            out.append((date_str.strip(), term.strip()))
+    return out
+
+
 def append(date, term):
     if not term:
         return
