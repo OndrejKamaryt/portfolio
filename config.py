@@ -13,5 +13,9 @@ EMAIL_TO = os.environ.get("EMAIL_TO", "")
 EMAIL_FROM = os.environ.get("EMAIL_FROM") or "Portfolio <onboarding@resend.dev>"
 
 TIMEZONE = "Europe/Prague"
-SEND_HOUR = 8          # lokální hodina, kdy má briefing odejít
+SEND_HOUR = 8           # cílová lokální hodina, kdy má briefing odejít
+# GitHub Actions "schedule" triggery umí naskočit se zpožděním v řádu hodin (běžné
+# u free tieru zvlášť u méně vytížených repozitářů) — okno místo přesné hodiny,
+# aby zpožděný běh briefing pořád poslal místo tichého přeskočení.
+SEND_WINDOW = (6, 13)   # (od, do) lokální hodiny, kdy je běh ještě v pořádku
 BASE_CURRENCY = "CZK"

@@ -30,12 +30,22 @@ def main():
     now = datetime.datetime.now(ZoneInfo(config.TIMEZONE))
     force = os.environ.get("FORCE_RUN") == "1"
 
-    # GitHub Actions cron je v UTC a spouští se ve dvou časech kvůli letnímu/zimnímu času;
-    # tato pojistka pustí briefing jen když je v Praze cílová hodina.
-    if not force and now.hour != config.SEND_HOUR:
-        print(f"Teď je {now:%H:%M} {config.TIMEZONE}, cíl {config.SEND_HOUR}:00 — končím "
-              f"(FORCE_RUN=1 pro okamžitý test).")
-        return
+    if not force:
+        lo, hi = config.SEND_WINDOW
+        # GitHub Actions cron je v UTC, spouští se ve dvou časech kvůli letnímu/zimnímu času,
+        # a navíc umí naskočit se zpožděním v řádu hodin — okno místo přesné hodiny, aby
+        # zpožděný běh briefing pořád poslal, místo aby ho tiše přeskočil.
+        if not (lo <= now.hour <= hi):
+            print(f"Teď je {now:%H:%M} {config.TIMEZONE}, okno je {lo}–{hi}:00 — končím "
+                  f"(FORCE_RUN=1 pro okamžitý test).")
+            return
+        # Pojistka proti dvojímu odeslání, když oba (léto/zima) cron záznamy naskočí
+        # zpožděné do stejného okna téhož dne.
+        rows = history.all_rows()
+        if rows and rows[-1][0] == now.date():
+            print(f"Dnešní briefing ({now:%Y-%m-%d}) už proběhl, končím "
+                  f"(FORCE_RUN=1 pro vynucení dalšího běhu).")
+            return
 
     with open("holdings.json", encoding="utf-8") as f:
         holdings = json.load(f)
