@@ -1,9 +1,14 @@
 name: Portfolio briefing
 
 on:
+  # GitHub Actions "schedule" je best-effort a u méně vytížených repozitářů umí naskočit
+  # se zpožděním v řádu hodin (v praxi jsme viděli 2-6 h zpoždění den co den). Místo
+  # jednoho pokusu v cílovou hodinu proto zkoušíme každou hodinu v okně 4-12 UTC (= 6-13
+  # Praha přes obě roční období) — main.py díky oknu + pojistce v history.csv (main.py)
+  # stejně briefing pošle jen jednou, takže časté pokusy nic nestojí navíc, jen zvyšují
+  # šanci, že GitHub aspoň jeden z nich spustí blízko 8:00.
   schedule:
-    - cron: "0 6 * * *"   # 08:00 Praha v létě (CEST = UTC+2)
-    - cron: "0 7 * * *"   # 08:00 Praha v zimě (CET = UTC+1)
+    - cron: "0 4-12 * * *"
   workflow_dispatch:       # ruční spuštění tlačítkem "Run workflow"
 
 permissions:
