@@ -75,11 +75,11 @@
   <div>
     <div class="hdr-label">PORTFOLIO · CZK</div>
     <div style="display:flex;align-items:baseline;gap:14px;margin-top:4px">
-      <div class="hdr-total mono">363 022 Kč</div>
-      <div class="hdr-change mono"><span style="color:#33d68f">1 346 Kč&nbsp;&nbsp;+0.37 % dnes</span></div>
+      <div class="hdr-total mono">123 024 Kč</div>
+      <div class="hdr-change mono"><span style="color:#ff5d6c">-239 997 Kč&nbsp;&nbsp;-66.11 % dnes</span></div>
     </div>
   </div>
-  <div class="hdr-time mono">Tuesday 07. 07. 2026 · 09:37</div>
+  <div class="hdr-time mono">Wednesday 08. 07. 2026 · 08:27</div>
 </div>
 
 <div class="grid">
@@ -88,13 +88,13 @@
     <div class="kpis">
       <div class="card">
         <div class="kpi-label">Nerealizovaný zisk</div>
-        <div class="kpi-val" style="color:#33d68f">41 271 Kč</div>
-        <div class="kpi-sub">u 11/18 pozic se živou cenou</div>
+        <div class="kpi-val" style="color:#ff5d6c">-471 Kč</div>
+        <div class="kpi-sub">u 1/18 pozic se živou cenou</div>
       </div>
       <div class="card">
         <div class="kpi-label">Výkon 7 dní</div>
-        <div class="kpi-val">—</div>
-        <div class="kpi-sub">zatím málo dat</div>
+        <div class="kpi-val">-65.62 %</div>
+        <div class="kpi-sub">z historie hodnoty</div>
       </div>
       <div class="card">
         <div class="kpi-label">Výkon 30 dní</div>
@@ -103,8 +103,8 @@
       </div>
       <div class="card">
         <div class="kpi-label">Alokace</div>
-        <div class="alloc-bar"><div style="width:50.58%;background:#7aa2ff"></div><div style="width:29.64%;background:#4ad3a8"></div><div style="width:14.61%;background:#f0b35c"></div><div style="width:5.17%;background:#c792ea"></div></div>
-        <div class="alloc-legend"><span><span style="color:#7aa2ff">●</span> ETF 50.6 %</span><span><span style="color:#4ad3a8">●</span> Akcie 29.6 %</span><span><span style="color:#f0b35c">●</span> Cash 14.6 %</span><span><span style="color:#c792ea">●</span> Krypto 5.2 %</span></div>
+        <div class="alloc-bar"><div style="width:49.93%;background:#7aa2ff"></div><div style="width:43.10%;background:#4ad3a8"></div><div style="width:6.97%;background:#f0b35c"></div><div style="width:0.00%;background:#c792ea"></div></div>
+        <div class="alloc-legend"><span><span style="color:#7aa2ff">●</span> ETF 49.9 %</span><span><span style="color:#4ad3a8">●</span> Cash 43.1 %</span><span><span style="color:#f0b35c">●</span> Akcie 7.0 %</span><span><span style="color:#c792ea">●</span> Krypto 0.0 %</span></div>
       </div>
     </div>
 
@@ -116,7 +116,7 @@
     <div class="card">
       <div class="pos-hd">
         <span class="pos-title">POZICE (18)</span>
-        <button class="chip active" onclick="filterPos(this,'Vše')">Vše</button><button class="chip" onclick="filterPos(this,'ETF')">ETF</button><button class="chip" onclick="filterPos(this,'Cash')">Cash</button><button class="chip" onclick="filterPos(this,'Akcie')">Akcie</button><button class="chip" onclick="filterPos(this,'Krypto')">Krypto</button>
+        <button class="chip active" onclick="filterPos(this,'Vše')">Vše</button><button class="chip" onclick="filterPos(this,'Cash')">Cash</button><button class="chip" onclick="filterPos(this,'ETF')">ETF</button><button class="chip" onclick="filterPos(this,'Akcie')">Akcie</button><button class="chip" onclick="filterPos(this,'Krypto')">Krypto</button>
       </div>
       <div class="table-scroll">
       <table id="posTable">
@@ -124,17 +124,7 @@
           <th>TICKER</th><th>NÁZEV</th><th>TŘÍDA</th><th class="right">KS</th><th class="right">CENA</th>
           <th class="right">HODNOTA</th><th class="right">DEN</th><th class="right">CELKEM</th><th>VÁHA</th>
         </tr></thead>
-        <tbody><tr data-type="ETF">
-  <td class="mono ticker">VOO</td>
-  <td class="name">Vanguard S&amp;P 500 ETF</td>
-  <td class="mono muted small">ETF</td>
-  <td class="mono right">8.35791</td>
-  <td class="mono right">690.62 USD</td>
-  <td class="mono right bold">122 208 Kč</td>
-  <td class="mono right"><span style="color:#33d68f">+0.84 %</span></td>
-  <td class="mono right"><span style="color:#33d68f">+64.8 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:33.66%"></div></div><span class="mono">33.7 %</span></td>
-</tr><tr data-type="Cash">
+        <tbody><tr data-type="Cash">
   <td class="mono ticker">—</td>
   <td class="name">Hotovost (volné + rezerva)</td>
   <td class="mono muted small">Cash</td>
@@ -143,17 +133,7 @@
   <td class="mono right bold">52 112 Kč</td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:14.36%"></div></div><span class="mono">14.4 %</span></td>
-</tr><tr data-type="Akcie">
-  <td class="mono ticker">SPOT</td>
-  <td class="name">Spotify Technology</td>
-  <td class="mono muted small">Akcie</td>
-  <td class="mono right">2.935</td>
-  <td class="mono right">483.01 USD</td>
-  <td class="mono right bold">30 014 Kč</td>
-  <td class="mono right"><span style="color:#ff5d6c">-0.61 %</span></td>
-  <td class="mono right"><span style="color:#33d68f">+144.9 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:8.27%"></div></div><span class="mono">8.3 %</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:42.36%"></div></div><span class="mono">42.4 %</span></td>
 </tr><tr data-type="ETF">
   <td class="mono ticker">—</td>
   <td class="name">Xtrackers MSCI World Info Tech</td>
@@ -163,7 +143,7 @@
   <td class="mono right bold">20 223 Kč</td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:5.57%"></div></div><span class="mono">5.6 %</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:16.44%"></div></div><span class="mono">16.4 %</span></td>
 </tr><tr data-type="ETF">
   <td class="mono ticker">—</td>
   <td class="name">iShares Core S&amp;P 500</td>
@@ -173,7 +153,7 @@
   <td class="mono right bold">18 646 Kč</td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:5.14%"></div></div><span class="mono">5.1 %</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:15.16%"></div></div><span class="mono">15.2 %</span></td>
 </tr><tr data-type="ETF">
   <td class="mono ticker">—</td>
   <td class="name">iShares Core MSCI World</td>
@@ -183,87 +163,17 @@
   <td class="mono right bold">18 253 Kč</td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:5.03%"></div></div><span class="mono">5.0 %</span></td>
-</tr><tr data-type="Akcie">
-  <td class="mono ticker">TWLO</td>
-  <td class="name">Twilio</td>
-  <td class="mono muted small">Akcie</td>
-  <td class="mono right">3.71609</td>
-  <td class="mono right">209.08 USD</td>
-  <td class="mono right bold">16 450 Kč</td>
-  <td class="mono right"><span style="color:#ff5d6c">-0.11 %</span></td>
-  <td class="mono right"><span style="color:#33d68f">+90.3 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:4.53%"></div></div><span class="mono">4.5 %</span></td>
-</tr><tr data-type="Krypto">
-  <td class="mono ticker">BTC-USD</td>
-  <td class="name">Bitcoin</td>
-  <td class="mono muted small">Krypto</td>
-  <td class="mono right">0.0117438</td>
-  <td class="mono right">63,058.96 USD</td>
-  <td class="mono right bold">15 679 Kč</td>
-  <td class="mono right"><span style="color:#ff5d6c">-1.46 %</span></td>
-  <td class="mono right"><span style="color:#33d68f">+111.2 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:4.32%"></div></div><span class="mono">4.3 %</span></td>
-</tr><tr data-type="Akcie">
-  <td class="mono ticker">HOOD</td>
-  <td class="name">Robinhood Markets</td>
-  <td class="mono muted small">Akcie</td>
-  <td class="mono right">5.2927</td>
-  <td class="mono right">117.55 USD</td>
-  <td class="mono right bold">13 172 Kč</td>
-  <td class="mono right"><span style="color:#33d68f">+4.28 %</span></td>
-  <td class="mono right"><span style="color:#33d68f">+57.5 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:3.63%"></div></div><span class="mono">3.6 %</span></td>
-</tr><tr data-type="Akcie">
-  <td class="mono ticker">WIX</td>
-  <td class="name">Wix.com</td>
-  <td class="mono muted small">Akcie</td>
-  <td class="mono right">11.4866</td>
-  <td class="mono right">50.21 USD</td>
-  <td class="mono right bold">12 211 Kč</td>
-  <td class="mono right"><span style="color:#33d68f">+1.74 %</span></td>
-  <td class="mono right"><span style="color:#ff5d6c">-70.8 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:3.36%"></div></div><span class="mono">3.4 %</span></td>
-</tr><tr data-type="Akcie">
-  <td class="mono ticker">IMAX</td>
-  <td class="name">IMAX Corp</td>
-  <td class="mono muted small">Akcie</td>
-  <td class="mono right">15.2609</td>
-  <td class="mono right">37.33 USD</td>
-  <td class="mono right bold">12 062 Kč</td>
-  <td class="mono right"><span style="color:#ff5d6c">-6.39 %</span></td>
-  <td class="mono right"><span style="color:#33d68f">+54.5 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:3.32%"></div></div><span class="mono">3.3 %</span></td>
-</tr><tr data-type="Akcie">
-  <td class="mono ticker">HUBS</td>
-  <td class="name">HubSpot</td>
-  <td class="mono muted small">Akcie</td>
-  <td class="mono right">2.49165</td>
-  <td class="mono right">193.84 USD</td>
-  <td class="mono right bold">10 226 Kč</td>
-  <td class="mono right"><span style="color:#33d68f">+0.90 %</span></td>
-  <td class="mono right"><span style="color:#ff5d6c">-63.3 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:2.82%"></div></div><span class="mono">2.8 %</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:14.84%"></div></div><span class="mono">14.8 %</span></td>
 </tr><tr data-type="Akcie">
   <td class="mono ticker">0700.HK</td>
   <td class="name">Tencent Holdings</td>
   <td class="mono muted small">Akcie</td>
   <td class="mono right">6.623</td>
-  <td class="mono right">460.40 HKD</td>
-  <td class="mono right bold">8 233 Kč</td>
-  <td class="mono right"><span style="color:#33d68f">+1.86 %</span></td>
-  <td class="mono right"><span style="color:#ff5d6c">-8.7 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:2.27%"></div></div><span class="mono">2.3 %</span></td>
-</tr><tr data-type="Akcie">
-  <td class="mono ticker">PLTR</td>
-  <td class="name">Palantir Technologies</td>
-  <td class="mono muted small">Akcie</td>
-  <td class="mono right">1.86804</td>
-  <td class="mono right">132.54 USD</td>
-  <td class="mono right bold">5 242 Kč</td>
-  <td class="mono right"><span style="color:#33d68f">+2.51 %</span></td>
-  <td class="mono right"><span style="color:#ff5d6c">-24.7 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:1.44%"></div></div><span class="mono">1.4 %</span></td>
+  <td class="mono right">478.20 HKD</td>
+  <td class="mono right bold">8 572 Kč</td>
+  <td class="mono right"><span style="color:#33d68f">+3.69 %</span></td>
+  <td class="mono right"><span style="color:#ff5d6c">-5.2 %</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:6.97%"></div></div><span class="mono">7.0 %</span></td>
 </tr><tr data-type="ETF">
   <td class="mono ticker">—</td>
   <td class="name">Amundi Prime All Country World</td>
@@ -273,17 +183,7 @@
   <td class="mono right bold">4 303 Kč</td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:1.19%"></div></div><span class="mono">1.2 %</span></td>
-</tr><tr data-type="Krypto">
-  <td class="mono ticker">ETH-USD</td>
-  <td class="name">Ethereum</td>
-  <td class="mono muted small">Krypto</td>
-  <td class="mono right">0.0819591</td>
-  <td class="mono right">1,770.80 USD</td>
-  <td class="mono right bold">3 073 Kč</td>
-  <td class="mono right"><span style="color:#ff5d6c">-1.49 %</span></td>
-  <td class="mono right"><span style="color:#33d68f">+2.2 %</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:0.85%"></div></div><span class="mono">0.8 %</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:3.5%"></div></div><span class="mono">3.5 %</span></td>
 </tr><tr data-type="Cash">
   <td class="mono ticker">—</td>
   <td class="name">Hotovost</td>
@@ -293,7 +193,107 @@
   <td class="mono right bold">915 Kč</td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
   <td class="mono right"><span style="color:#565e70">—</span></td>
-  <td class="weight-cell"><div class="wbar"><div style="width:0.25%"></div></div><span class="mono">0.2 %</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0.74%"></div></div><span class="mono">0.7 %</span></td>
+</tr><tr data-type="ETF">
+  <td class="mono ticker">VOO</td>
+  <td class="name">Vanguard S&amp;P 500 ETF</td>
+  <td class="mono muted small">ETF</td>
+  <td class="mono right">8.35791</td>
+  <td class="mono right">⚠️ cena N/A</td>
+  <td class="mono right bold">—</td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0%"></div></div><span class="mono">—</span></td>
+</tr><tr data-type="Akcie">
+  <td class="mono ticker">SPOT</td>
+  <td class="name">Spotify Technology</td>
+  <td class="mono muted small">Akcie</td>
+  <td class="mono right">2.935</td>
+  <td class="mono right">⚠️ cena N/A</td>
+  <td class="mono right bold">—</td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0%"></div></div><span class="mono">—</span></td>
+</tr><tr data-type="Akcie">
+  <td class="mono ticker">TWLO</td>
+  <td class="name">Twilio</td>
+  <td class="mono muted small">Akcie</td>
+  <td class="mono right">3.71609</td>
+  <td class="mono right">⚠️ cena N/A</td>
+  <td class="mono right bold">—</td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0%"></div></div><span class="mono">—</span></td>
+</tr><tr data-type="Akcie">
+  <td class="mono ticker">IMAX</td>
+  <td class="name">IMAX Corp</td>
+  <td class="mono muted small">Akcie</td>
+  <td class="mono right">15.2609</td>
+  <td class="mono right">⚠️ cena N/A</td>
+  <td class="mono right bold">—</td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0%"></div></div><span class="mono">—</span></td>
+</tr><tr data-type="Akcie">
+  <td class="mono ticker">WIX</td>
+  <td class="name">Wix.com</td>
+  <td class="mono muted small">Akcie</td>
+  <td class="mono right">11.4866</td>
+  <td class="mono right">⚠️ cena N/A</td>
+  <td class="mono right bold">—</td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0%"></div></div><span class="mono">—</span></td>
+</tr><tr data-type="Akcie">
+  <td class="mono ticker">HUBS</td>
+  <td class="name">HubSpot</td>
+  <td class="mono muted small">Akcie</td>
+  <td class="mono right">2.49165</td>
+  <td class="mono right">⚠️ cena N/A</td>
+  <td class="mono right bold">—</td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0%"></div></div><span class="mono">—</span></td>
+</tr><tr data-type="Akcie">
+  <td class="mono ticker">PLTR</td>
+  <td class="name">Palantir Technologies</td>
+  <td class="mono muted small">Akcie</td>
+  <td class="mono right">1.86804</td>
+  <td class="mono right">⚠️ cena N/A</td>
+  <td class="mono right bold">—</td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0%"></div></div><span class="mono">—</span></td>
+</tr><tr data-type="Akcie">
+  <td class="mono ticker">HOOD</td>
+  <td class="name">Robinhood Markets</td>
+  <td class="mono muted small">Akcie</td>
+  <td class="mono right">5.2927</td>
+  <td class="mono right">⚠️ cena N/A</td>
+  <td class="mono right bold">—</td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0%"></div></div><span class="mono">—</span></td>
+</tr><tr data-type="Krypto">
+  <td class="mono ticker">BTC-USD</td>
+  <td class="name">Bitcoin</td>
+  <td class="mono muted small">Krypto</td>
+  <td class="mono right">0.0117438</td>
+  <td class="mono right">⚠️ cena N/A</td>
+  <td class="mono right bold">—</td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0%"></div></div><span class="mono">—</span></td>
+</tr><tr data-type="Krypto">
+  <td class="mono ticker">ETH-USD</td>
+  <td class="name">Ethereum</td>
+  <td class="mono muted small">Krypto</td>
+  <td class="mono right">0.0819591</td>
+  <td class="mono right">⚠️ cena N/A</td>
+  <td class="mono right bold">—</td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="mono right"><span style="color:#565e70">—</span></td>
+  <td class="weight-cell"><div class="wbar"><div style="width:0%"></div></div><span class="mono">—</span></td>
 </tr><tr data-type="Akcie">
   <td class="mono ticker">—</td>
   <td class="name">Sberbank (SBER.MOEX)</td>
@@ -313,35 +313,34 @@
 
   <div class="rail">
     <div class="rail-hd"><div class="rail-title">Poslední briefing</div></div>
-    <div class="rail-date mono">📈 Portfolio přehled — 7. 7. 2026</div>
-    <div class="briefing"><p>Mám dost materiálu, sepisuji briefing.</p>
-<h1>📋 Ranní portfolio briefing — út 7. 7. 2026</h1>
+    <div class="rail-date mono">📈 Portfolio přehled — 8. 7. 2026</div>
+    <div class="briefing"><p>Mám dost materiálu, sestavuji ranní přehled.</p>
+<hr />
+<h1>📊 Ranní portfolio brief — středa 8.7.2026</h1>
 <h2>1. Nálada trhu</h2>
-<p>Fed pod novým šéfem Kevinem Warshem drží sazby na 3,50–3,75 % a trh nyní očekával jedno snížení sazeb v 2026, ale trh práce se posílil a inflace vzrostla na nejvyšší úroveň za tři roky kvůli vyšším cenám energií. Na příštím zasedání 28.–29. 7. se očekává, že tvůrci politiky ponechají sazby beze změny při zachování možnosti dalšího zpřísnění, pokud se inflace ukáže jako trvalá. Sektor čipů se po výprodeji minulý týden vrací nahoru – hlavní hnací silou je AI/custom-chip flow.</p>
+<p>S&amp;P 500 se drží kolem 7 500 bodů po solidním červnovém oživení, ale druhá kvartální earnings sezóna začíná týden od 13. července, kdy trh čeká na to, jestli síla technologií, energetiky a politika Fedu udrží rally, přičemž trhy stále cení alespoň jedno zvýšení sazeb Fedu později v roce 2026. Krypto je smíšené – Bitcoin se drží kolem krátkodobé podpory 63 000 USD, Ethereum pod 1 800 USD a XRP testuje poptávkovou zónu 1,13 USD, sentiment je stále ve „strachu".</p>
 <h2>2. Co se hýbe u tebe</h2>
 <ul>
-<li><strong>IMAX (-6,39 %)</strong> – bez čerstvé negativní zprávy z posledních 24–72 h; jde spíš o odraz od nedávného sale-rumour rallye (v květnu skočil přes 10 % na zprávách o možném prodeji společnosti). Fundamentálně podle 11 analytiků je průměrné hodnocení akcie IMAX „Strong Buy" s 12měsíčním cílem 46,82 USD, nejbližší earnings jsou naplánovány na 23. 7. 2026 s odhadem EPS 0,30 USD.</li>
-<li><strong>Robinhood (+4,28 %)</strong> – pohyb má makro příčinu: akcie skočila po zprávě, že spotřebitelská důvěra v červnu vzrostla na 91,2 bodu, obchodovala se na 118,13 USD, tedy +5 % oproti předchozí uzávěrce. Firma navíc nedávno oznámila, že výsledky za 2. čtvrtletí 2026 zveřejní ve středu 29. července 2026 po uzavření trhu.</li>
-<li>Ostatní pozice (SPOT, TWLO, WIX, HUBS, Tencent, PLTR, BTC, ETH) se pohybovaly v rámci běžné denní volatility, bez zásadních zpráv, které by se mi podařilo dohledat.</li>
+<li><strong>Tencent (0700.HK)</strong>: dnes +3,69 %, ale širší kontext je smíšený – firma prodala akcie v hodnotě 1,5 miliardy USD v konkurenčním Kuaishou během pivotu k umělé inteligenci, což byl největší blokový obchod v Hongkongu letos. Analytici zůstávají pozitivní: podle 3 analytiků je průměrné doporučení „Buy" s 12měsíčním cílem 97,37 USD.</li>
+<li><strong>Watchlist – Micron (MU)</strong>: den -4,71 % zapadá do širšího propadu – i přes silné Q3 výsledky (tržby +346 %) akcie klesly o 6 % po výsledcích kvůli obavám z AI-valuačního přehřátí, k čemuž přispívá i chystaný IPO SK Hynixu na Nasdaqu za až 28 miliard USD. Zároveň Micron uzavřel víceletou AI partnerství s Anthropic jako hlavní dodavatel paměti a úložišť — fundament zůstává silný, jde spíš o sektorovou nervozitu.</li>
 </ul>
 <h2>3. Tento týden</h2>
 <ul>
-<li><strong>HOOD</strong>: earnings až 29. 7. – mimo tento týden, ale sleduj předběžný Say Technologies Q&amp;A (otevírá se 22. 7.).</li>
-<li><strong>IMAX</strong>: earnings 23. 7. – také mimo tento týden.</li>
-<li>U ostatních pozic žádné potvrzené termíny výsledků tento týden jsem nenašel.</li>
+<li>Earnings sezóna startuje týden od 13. července, kdy začnou reportovat velké banky.</li>
+<li>Tencent má další earnings až 12. srpna 2026, takže nic bezprostředního.</li>
+<li>SK Hynix debutuje na Nasdaqu 10. července — může krátkodobě odsávat pozornost/kapitál od Micronu (relevantní pro watchlist).</li>
 </ul>
 <h2>4. Swingový nápad</h2>
-<p><strong>AVGO (Broadcom)</strong> – mimo tvé portfolio, ale na watchlistu sledovaném okolí (chip sektor). Katalyzátor: akcie v pondělí ráno vyskočila zhruba o 6 % poté, co firma oznámila rozšíření partnerství na custom čipy s Applem od roku 2023, a zároveň nedávno vykázala rekordní tržby za 2Q ve výši 22,19 mld. USD (+48 % meziročně) s výhledem na 3Q počítajícím s tržbami 29,4 mld. USD (+84 % meziročně). Akcie je přitom stále citelně pod maximem – Broadcom je 24 % pod svým maximem po tom, co strávil rok 2026 kombinací rychlého růstu a slabší výkonnosti akcie. Časový rámec: dny až 2–3 týdny na možný návrat momenta. Invalidace: pokud cena spadne zpět pod cca 360 USD (týdenní minimum) nebo se objeví negativní zprávy o ztrátě zákazníků (např. Google TPU).
-⚔️ <strong>Nejsilnější protiargument</strong>: tržní ocenění zahrnuje cíl volného cash flow ~115 mld. USD do FY28, což vyžaduje agresivní předpoklady, a riziko koncentrace zákazníků je významné – pokles podílu Googlu na TPU by mohl stát AVGO 15–25 mld. USD tržeb ve FY28. Valuace je tedy napjatá a odraz může být jen krátkodobý „buy the dip", ne trendová změna.</p>
+<p>Žádný přesvědčivý swing setup ve tvém portfoliu k dnešnímu dni. U MU by šlo teoreticky sledovat oversold odraz (RSI kolem 38 na technice), ale to je čistě watchlist položka a signál je smíšený mezi "dočasný pullback" (UBS) a "downgrade na sell" (Seeking Alpha) — nejde o jasnou tezi k předání.</p>
 <h2>5. 📚 Pojem k tématu</h2>
-<p><strong>Konsensuální cíl analytiků (price target)</strong> – to je průměrná cena akcie, kterou analytici z bank a výzkumných firem odhadují za 12 měsíců dopředu. Např. u IMAXu je konsensus 12měsíční cílová cena 46,82 USD, což je nárůst o 11,16 % oproti poslední ceně – ale je to jen odhad, ne záruka, a různí analytici se často výrazně liší. Ber to jako jeden z mnoha vstupů do rozhodování, ne jako jistotu.</p>
+<p><strong>Block trade (blokový obchod)</strong> — když někdo prodává obrovské množství akcií najednou (třeba miliardy dolarů), neprodává je běžně na burze, ale domluví jednorázový velký balík mimo standardní obchodování, často s mírnou slevou oproti tržní ceně, aby kupce přilákal. Přesně to udělal Tencent, když prodal přes svou jednotku Tencent Mobility až 1,55 miliardy USD v akciích Kuaishou formou term sheetu s nabídkou kolem 273 milionů akcií — tenhle typ obchodu umí krátkodobě srazit cenu prodávané firmy (Kuaishou spadl o desítky procent v ten den), i když se ostatní vlastník (Tencent) chová racionálně a jen přerozděluje portfolio.</p>
 <p>⚠️ Nejsem finanční poradce; informativní shrnutí, ne investiční doporučení. Ceny orientační.</p></div>
   </div>
 </div>
 
 <footer>
   <h2 style="font-size:13px">📚 Archiv vysvětlených pojmů</h2>
-  <ul class="terms"><li><time>2026-07-07</time> — konsensuální cíl analytiků</li><li><time>2026-07-06</time> — dry powder</li><li><time>2026-07-05</time> — short pozice</li><li><time>2026-07-04</time> — konvertibilní dluhopisy</li><li><time>2026-07-03</time> — guidance</li><li><time>2026-07-02</time> — Rule of 40</li><li><time>2026-07-02</time> — forward P/E</li><li><time>2026-07-02</time> — golden cross</li></ul>
+  <ul class="terms"><li><time>2026-07-08</time> — block trade (blokový obchod)</li><li><time>2026-07-07</time> — konsensuální cíl analytiků</li><li><time>2026-07-06</time> — dry powder</li><li><time>2026-07-05</time> — short pozice</li><li><time>2026-07-04</time> — konvertibilní dluhopisy</li><li><time>2026-07-03</time> — guidance</li><li><time>2026-07-02</time> — Rule of 40</li><li><time>2026-07-02</time> — forward P/E</li><li><time>2026-07-02</time> — golden cross</li></ul>
   <p class="disclaimer">⚠️ Nejsem finanční poradce; informativní shrnutí, ne investiční doporučení. Ceny orientační. „Nerealizovaný zisk" pokrývá jen pozice se živou cenou (ruční ETF a hotovost nemají v systému uloženou pořizovací cenu).</p>
 </footer>
 
@@ -358,10 +357,10 @@ function filterPos(btn, type) {
 new Chart(document.getElementById('historyChart'), {
   type: 'line',
   data: {
-    labels: ["2026-07-01", "2026-07-02", "2026-07-02", "2026-07-02", "2026-07-02", "2026-07-02", "2026-07-02", "2026-07-03", "2026-07-04", "2026-07-05", "2026-07-06", "2026-07-07"],
+    labels: ["2026-07-01", "2026-07-02", "2026-07-02", "2026-07-02", "2026-07-02", "2026-07-02", "2026-07-02", "2026-07-03", "2026-07-04", "2026-07-05", "2026-07-06", "2026-07-07", "2026-07-08"],
     datasets: [{
       label: 'Hodnota portfolia (Kč)',
-      data: [357824.21, 359354.5, 359386.13, 359419.23, 360117.96, 360127.85, 360218.98, 360509.07, 360747.62, 361050.89, 361676.12, 363021.67],
+      data: [357824.21, 359354.5, 359386.13, 359419.23, 360117.96, 360127.85, 360218.98, 360509.07, 360747.62, 361050.89, 361676.12, 363021.67, 123024.34],
       borderColor: '#7aa2ff',
       backgroundColor: 'rgba(122,162,255,0.09)',
       fill: true,
