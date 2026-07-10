@@ -12,3 +12,4 @@ Automaticky vedený seznam (viz sekce „Pojem k tématu“ v briefinzích).
 - 2026-07-07: konsensuální cíl analytiků
 - 2026-07-08: block trade (blokový obchod)
 - 2026-07-09: 52týdenní minimum/maximum
+- 2026-07-10: gross margin
