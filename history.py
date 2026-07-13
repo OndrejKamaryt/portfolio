@@ -5,6 +5,7 @@ na GitHub Actions po každém běhu zmizel spolu s ephemeral runnerem.
 """
 import csv
 import datetime
+import math
 import pathlib
 
 PATH = pathlib.Path("history.csv")
@@ -12,6 +13,12 @@ SPARK_CHARS = "▁▂▃▄▅▆▇█"
 
 
 def append(date, total_czk):
+    # Nezapisuj NaN/inf — jinak by se do CSV dostal řádek "…,nan", který pak shodí
+    # graf i sparkline (viz _rows/sparkline). Prázdná/nevalidní hodnota = běh se
+    # jen nepřidá do historie, ale briefing se odešle normálně.
+    if total_czk is None or not math.isfinite(total_czk):
+        print(f"history: přeskakuji zápis, celková hodnota není číslo ({total_czk!r}).")
+        return
     is_new = not PATH.exists()
     with PATH.open("a", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -27,7 +34,13 @@ def _rows():
     with PATH.open(encoding="utf-8") as f:
         for row in csv.DictReader(f):
             try:
-                out.append((datetime.date.fromisoformat(row["date"]), float(row["total_czk"])))
+                val = float(row["total_czk"])
+            except (KeyError, ValueError):
+                continue
+            if not math.isfinite(val):   # přeskoč případný starší "nan" řádek
+                continue
+            try:
+                out.append((datetime.date.fromisoformat(row["date"]), val))
             except (KeyError, ValueError):
                 continue
     return sorted(out)

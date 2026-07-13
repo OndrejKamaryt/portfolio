@@ -1,20 +1,31 @@
 """Načtení živých cen (yfinance) a výpočet hodnoty + P/L v CZK."""
+import math
 from functools import lru_cache
 import yfinance as yf
+
+
+def _clean(x):
+    """Vrátí kladné konečné číslo, jinak None. yfinance občas vrátí NaN místo None
+    a `if x:` NaN propustí (NaN je pravdivé) — to pak zamoří výpočty i history.csv."""
+    try:
+        x = float(x)
+    except (TypeError, ValueError):
+        return None
+    return x if math.isfinite(x) and x > 0 else None
 
 
 def _last_price(symbol):
     t = yf.Ticker(symbol)
     try:
-        p = t.fast_info.get("last_price")
-        if p:
-            return float(p)
+        p = _clean(t.fast_info.get("last_price"))
+        if p is not None:
+            return p
     except Exception:
         pass
     try:
         h = t.history(period="5d")
         if not h.empty:
-            return float(h["Close"].iloc[-1])
+            return _clean(h["Close"].iloc[-1])
     except Exception:
         pass
     return None
@@ -24,7 +35,7 @@ def _prev_close(symbol):
     try:
         h = yf.Ticker(symbol).history(period="5d")
         if len(h) >= 2:
-            return float(h["Close"].iloc[-2])
+            return _clean(h["Close"].iloc[-2])
     except Exception:
         pass
     return None

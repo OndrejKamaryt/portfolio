@@ -1,5 +1,6 @@
 """Orchestrátor: načte portfolio, spočítá ceny/P/L, vygeneruje briefing, odešle e-mail."""
 import json
+import math
 import os
 import pathlib
 import re
@@ -31,6 +32,11 @@ def main():
     force = os.environ.get("FORCE_RUN") == "1"
 
     if not force:
+        # O víkendu (sobota=5, neděle=6) briefing neposíláme — trhy jsou zavřené.
+        if now.weekday() >= 5:
+            print(f"Dnes je víkend ({now:%A}), briefing se neposílá — končím "
+                  f"(FORCE_RUN=1 pro okamžitý test).")
+            return
         lo, hi = config.SEND_WINDOW
         # GitHub Actions cron je v UTC, spouští se ve dvou časech kvůli letnímu/zimnímu času,
         # a navíc umí naskočit se zpožděním v řádu hodin — okno místo přesné hodiny, aby
@@ -53,6 +59,22 @@ def main():
     decisions_log = _load_decisions_log(pathlib.Path("decisions.md"))
 
     data = prices.enrich(holdings)
+
+    # Když se ceny hromadně nenačtou (yfinance výpadek), celková hodnota nedává smysl —
+    # radši nic neposílat, než rozeslat nesmyslný briefing. Cron to zkusí za hodinu znovu.
+    total = data["total_czk"]
+    if total is None or not math.isfinite(total) or total <= 0:
+        print(f"Celková hodnota portfolia není platná ({total!r}) — ceny se nejspíš nenačetly. "
+              f"Končím bez odeslání, cron to zkusí znovu.")
+        return
+    # Pojistka proti ČÁSTEČNÉMU výpadku: když se načte jen část pozic, total je platné číslo,
+    # ale nesmyslně nízké (viděli jsme ~123k místo ~363k). Když je dnešek pod 60 % poslední
+    # známé hodnoty, je to skoro jistě chyba dat, ne reálný propad — přeskoč a zkus později.
+    prev = history.all_rows()
+    if prev and not force and total < 0.6 * prev[-1][1]:
+        print(f"Celková hodnota {total:.0f} je pod 60 % poslední známé ({prev[-1][1]:.0f}) — "
+              f"nejspíš se načetla jen část cen. Končím bez odeslání, cron to zkusí znovu.")
+        return
 
     history.append(now.date(), data["total_czk"])
     perf_7d = history.performance(data["total_czk"], now, 7)

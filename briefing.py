@@ -10,30 +10,37 @@ WEEKDAYS_CZ = ["pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota"
 
 FORMAT_A = """### FORMÁT — Pondělní TÝDENNÍ DEEP-DIVE (markdown)
 1. **Snímek portfolia** — celková hodnota, výkon za týden/měsíc (dodaná čísla, pokud jsou k dispozici) a trend, nálada týdne.
-2. **Novinky k pozicím** — rozděl na 🟢 Táhnou nahoru / 🔴 Pod tlakem / ⚪ Ostatní; ke každé 1–2 věty (novinka + dopad, použij dodané P/L).
-3. **Makro** — S&P 500, Fed/sazby, rizika, „co to znamená pro tebe".
+2. **Novinky k pozicím** — rozděl na 🟢 Táhnou nahoru / 🔴 Pod tlakem / ⚪ Ostatní; ke každé 1–2 věty (novinka + dopad, použij dodané P/L). {entry_exit}
+3. **Makro — polopaticky** — {macro}
 4. **Krypto** — BTC, ETH.
 5. **Doporučení (1–3 tituly s tezí)** — chytře podle portfolia (silně SaaS/tech, chybí AI hardware/diverzifikace). Ke každému: teze ve 2 větách + ⚔️ **Nejsilnější protiargument** (nejpřesvědčivější důvod, proč by tahle sázka mohla NEVYJÍT — ne obecné riziko jako "je to volatilní", ale konkrétní scénář/fakt, který tezi rozporuje). Klidně aktualizuj watchlist místo honění nových nápadů.
 6. **Watchlist update** — kde stojí NVDA/AVGO/MU a jestli je něco blíž k akci.
 7. **Co zvážit** — 2–4 postřehy (dry powder ~52k ladem, koncentrace do SaaS, konkrétní pozice k rozhodnutí).
-8. **Swingový nápad** — {swing}
-9. **📚 Pojem k tématu** — {edu}"""
+8. **📚 Pojem k tématu** — {edu}"""
 
 FORMAT_B = """### FORMÁT — KRÁTKÝ DENNÍ PŘEHLED (markdown, stručně)
-1. **Nálada trhu** — 1–2 řádky (S&P 500, hlavní overnight pohyb, krypto).
-2. **Co se hýbe u tebe** — JEN pozice/watchlist s významným pohybem (~3 %+ za den), zprávou nebo výsledky. Když je klid, napiš jedním řádkem „Klidné ráno, nic zásadního." a nevymýšlej obsah.
+1. **Makro — polopaticky** — {macro}
+2. **Co se hýbe u tebe** — JEN pozice/watchlist s významným pohybem (~3 %+ za den), zprávou nebo výsledky. Když je klid, napiš jedním řádkem „Klidné ráno, nic zásadního." a nevymýšlej obsah. {entry_exit}
 3. **Tento týden** — nadcházející earnings/události u tvých pozic, pokud jsou.
-4. **Swingový nápad** — {swing}
-5. **📚 Pojem k tématu** — {edu}
-Žádná jiná nová doporučení (ta jsou pondělní), leda watchlist trigger."""
+4. **📚 Pojem k tématu** — {edu}
+Žádná doporučení k nákupu nových titulů (ta jsou pondělní), leda watchlist trigger."""
 
-SWING_INSTRUCTION = (
-    'JEN pokud je opravdu přesvědčivý (konkrétní krátkodobý katalyzátor — čerstvé výsledky, '
-    'technický setup, událost, silný news flow), ne evergreen investiční teze. Jinak napiš '
-    'jedním řádkem „Žádný přesvědčivý swing setup" a nic nevymýšlej. Klidně mimo portfolio i '
-    'watchlist. Když ho uvedeš: ticker, proč zrovna teď (1–2 věty), časový rámec (dny až pár '
-    'týdnů), úroveň/scénář kdy by teze byla vyvrácená (invalidace), a ⚔️ **Nejsilnější '
-    'protiargument**. Je to nápad k úvaze, ne pokyn k obchodu.'
+MACRO_INSTRUCTION = (
+    'Vysvětli, JAK trh dnes vnímáš (býčí / medvědí / nejistý / rotace…) a hlavně PROČ — '
+    'polopaticky, jako bys to vysvětloval kamarádovi bez ekonomického vzdělání. Ne jen "Fed je '
+    'jestřábí", ale i co to prakticky znamená (např. "vyšší sazby = dražší půjčky = tlak na '
+    'růstové akcie, protože jejich zisky jsou daleko v budoucnu"). Ukotvi to v konkrétních '
+    'dnešních zprávách/číslech (S&P 500, sazby, výnosy, hlavní overnight pohyb, krypto) a na '
+    'konec 1 větou „co to znamená pro tebe" vzhledem k jeho portfoliu (silně tech/SaaS + krypto).'
+)
+
+ENTRY_EXIT_INSTRUCTION = (
+    'U pozice, kde to dnešní pohyb ceny činí relevantním (velký skok/propad, průraz úrovně, '
+    'reakce na výsledky), přidej krátkou poznámku **⏳ Vstup/výstup**: je teď vhodný čas z ní '
+    'vystoupit, nebo naopak dokoupit? Vždy uveď PROČ ano i PROČ ne (obě strany), ať se rozhodne '
+    'sám — např. „výstup: bereš +64 %, ale prodáváš vítěze; držení: teze pořád platí, jen roste '
+    'riziko koncentrace". Přidej to JEN tam, kde to má na základě pohybu ceny smysl, ne ke každé '
+    'pozici. Není to pokyn k obchodu, jen podklad k rozhodnutí.'
 )
 
 EDU_INSTRUCTION = (
@@ -97,7 +104,9 @@ def build_briefing(data, now=None, decisions_log="", perf_7d=None, perf_30d=None
     weekday = now.weekday()  # 0 = pondělí
     is_monday = weekday == 0
     day_name = WEEKDAYS_CZ[weekday]
-    fmt = (FORMAT_A if is_monday else FORMAT_B).format(swing=SWING_INSTRUCTION, edu=EDU_INSTRUCTION)
+    fmt = (FORMAT_A if is_monday else FORMAT_B).format(
+        macro=MACRO_INSTRUCTION, entry_exit=ENTRY_EXIT_INSTRUCTION, edu=EDU_INSTRUCTION
+    )
 
     wl = ", ".join(
         f"{w['symbol']} ({w.get('price')}, den {w.get('day_change_pct')}%)" for w in data["watchlist"]
