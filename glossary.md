@@ -15,3 +15,4 @@ Automaticky vedený seznam (viz sekce „Pojem k tématu“ v briefinzích).
 - 2026-07-10: gross margin
 - 2026-07-11: tržní kapitalizace
 - 2026-07-12: konvertibilní seniorní dluhopisy
+- 2026-07-13: insider selling
