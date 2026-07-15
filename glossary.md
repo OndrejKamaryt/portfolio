@@ -17,3 +17,4 @@ Automaticky vedený seznam (viz sekce „Pojem k tématu“ v briefinzích).
 - 2026-07-12: konvertibilní seniorní dluhopisy
 - 2026-07-13: insider selling
 - 2026-07-14: retail sentiment
+- 2026-07-15: sektorová rotace
