@@ -21,3 +21,4 @@ Automaticky vedený seznam (viz sekce „Pojem k tématu“ v briefinzích).
 - 2026-07-16: insider sale
 - 2026-07-17: 50týdenní klouzavý průměr
 - 2026-07-20: Rule of 40
+- 2026-07-21: forward guidance
