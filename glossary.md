@@ -23,3 +23,4 @@ Automaticky vedený seznam (viz sekce „Pojem k tématu“ v briefinzích).
 - 2026-07-20: Rule of 40
 - 2026-07-21: forward guidance
 - 2026-07-22: GF Value / fair value
+- 2026-07-23: forward P/E
