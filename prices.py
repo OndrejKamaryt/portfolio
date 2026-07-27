@@ -1,12 +1,24 @@
-"""Načtení živých cen (yfinance) a výpočet hodnoty + P/L v CZK."""
+"""Načtení živých cen (Yahoo Finance chart API) a výpočet hodnoty + P/L v CZK.
+
+Dřív jsme používali knihovnu `yfinance`, ale ta se opakovaně rozbíjí, když Yahoo změní
+autentizaci (crumb/cookie) — vrací pak prázdné (NaN) ceny, i když Yahoo data reálně má.
+Voláme proto Yahoo chart API napřímo přes `requests`: je to stabilnější, rychlejší
+(jeden dotaz na ticker) a `requests` už jako závislost máme.
+"""
 import math
 from functools import lru_cache
-import yfinance as yf
+
+import requests
+
+_HEADERS = {"User-Agent": "Mozilla/5.0"}
+_TIMEOUT = 15
+# Yahoo má dva hosty — když jeden vrátí chybu, zkusíme druhý.
+_HOSTS = ("https://query1.finance.yahoo.com", "https://query2.finance.yahoo.com")
 
 
 def _clean(x):
-    """Vrátí kladné konečné číslo, jinak None. yfinance občas vrátí NaN místo None
-    a `if x:` NaN propustí (NaN je pravdivé) — to pak zamoří výpočty i history.csv."""
+    """Vrátí kladné konečné číslo, jinak None. Yahoo občas vrátí null/NaN a `if x:`
+    by NaN propustil (NaN je pravdivé) — to pak zamoří výpočty i history.csv."""
     try:
         x = float(x)
     except (TypeError, ValueError):
@@ -14,31 +26,38 @@ def _clean(x):
     return x if math.isfinite(x) and x > 0 else None
 
 
+@lru_cache(maxsize=None)
+def _quote(symbol):
+    """Vrátí (last_price, prev_close) z Yahoo chart API, nebo (None, None) při chybě.
+    Cachováno, aby se každý ticker stáhl jen jednou za běh."""
+    for host in _HOSTS:
+        try:
+            url = f"{host}/v8/finance/chart/{symbol}?range=5d&interval=1d"
+            r = requests.get(url, headers=_HEADERS, timeout=_TIMEOUT)
+            r.raise_for_status()
+            res = r.json()["chart"]["result"][0]
+            meta = res["meta"]
+            last = _clean(meta.get("regularMarketPrice"))
+            if last is None:  # fallback: poslední platná close hodnota z 5denní řady
+                closes = res.get("indicators", {}).get("quote", [{}])[0].get("close") or []
+                for c in reversed(closes):
+                    last = _clean(c)
+                    if last is not None:
+                        break
+            prev = _clean(meta.get("previousClose")) or _clean(meta.get("chartPreviousClose"))
+            if last is not None:
+                return last, prev
+        except Exception:
+            continue
+    return None, None
+
+
 def _last_price(symbol):
-    t = yf.Ticker(symbol)
-    try:
-        p = _clean(t.fast_info.get("last_price"))
-        if p is not None:
-            return p
-    except Exception:
-        pass
-    try:
-        h = t.history(period="5d")
-        if not h.empty:
-            return _clean(h["Close"].iloc[-1])
-    except Exception:
-        pass
-    return None
+    return _quote(symbol)[0]
 
 
 def _prev_close(symbol):
-    try:
-        h = yf.Ticker(symbol).history(period="5d")
-        if len(h) >= 2:
-            return _clean(h["Close"].iloc[-2])
-    except Exception:
-        pass
-    return None
+    return _quote(symbol)[1]
 
 
 @lru_cache(maxsize=None)

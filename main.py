@@ -68,11 +68,12 @@ def main():
               f"Končím bez odeslání, cron to zkusí znovu.")
         return
     # Pojistka proti ČÁSTEČNÉMU výpadku: když se načte jen část pozic, total je platné číslo,
-    # ale nesmyslně nízké (viděli jsme ~123k místo ~363k). Když je dnešek pod 60 % poslední
-    # známé hodnoty, je to skoro jistě chyba dat, ne reálný propad — přeskoč a zkus později.
+    # ale nesmyslně nízké (viděli jsme ~123k i ~231k místo ~363k). Práh 0,8 = tolerujeme reálný
+    # denní propad až -20 % (i pořádný krach), ale zachytíme výpadek dat (ten dá typicky 30-65 %
+    # skutečné hodnoty). Reálný krach > 20 % za den je natolik vzácný, že odklad o den nevadí.
     prev = history.all_rows()
-    if prev and not force and total < 0.6 * prev[-1][1]:
-        print(f"Celková hodnota {total:.0f} je pod 60 % poslední známé ({prev[-1][1]:.0f}) — "
+    if prev and not force and total < 0.8 * prev[-1][1]:
+        print(f"Celková hodnota {total:.0f} je pod 80 % poslední známé ({prev[-1][1]:.0f}) — "
               f"nejspíš se načetla jen část cen. Končím bez odeslání, cron to zkusí znovu.")
         return
 
