@@ -26,3 +26,4 @@ Automaticky vedený seznam (viz sekce „Pojem k tématu“ v briefinzích).
 - 2026-07-23: forward P/E
 - 2026-07-24: short squeeze
 - 2026-07-27: GF Score
+- 2026-07-28: short float
