@@ -82,20 +82,35 @@ def main():
     perf_30d = history.performance(data["total_czk"], now, 30)
     spark = history.sparkline()
 
-    glossary_terms = glossary.recent()
-    subject, text, term = briefing.build_briefing(
-        data, now, decisions_log, perf_7d, perf_30d, spark, glossary_terms
-    )
-    glossary.append(now.date(), term)
+    # Briefing (psaný text) potřebuje Claude API. Když selže (typicky vyčerpaný kredit),
+    # nechceme shodit celý běh — čísla a graf jsou platné i tak, takže dashboard aktualizujeme
+    # dál, jen s poznámkou místo briefingu. E-mail se v takovém případě neposílá.
+    briefing_ok = True
+    try:
+        glossary_terms = glossary.recent()
+        subject, text, term = briefing.build_briefing(
+            data, now, decisions_log, perf_7d, perf_30d, spark, glossary_terms
+        )
+        glossary.append(now.date(), term)
+    except Exception as e:
+        briefing_ok = False
+        print(f"Briefing se nepodařilo vygenerovat ({e}) — aktualizuji jen čísla/graf.")
+        subject = f"📈 Portfolio přehled — {now.day}. {now.month}. {now.year}"
+        text = ("⚠️ **Briefing dnes není k dispozici** — text píše Claude API a to se nepodařilo "
+                "zavolat (nejčastěji vyčerpaný kredit). Čísla, graf a pozice níže jsou ale aktuální.")
 
-    out_dir = pathlib.Path("briefings")
-    out_dir.mkdir(exist_ok=True)
-    fpath = out_dir / f"{now:%Y-%m-%d}.md"
-    fpath.write_text(f"# {subject}\n\n{text}\n", encoding="utf-8")
-    print(f"Briefing uložen: {fpath}")
+    if briefing_ok:
+        out_dir = pathlib.Path("briefings")
+        out_dir.mkdir(exist_ok=True)
+        fpath = out_dir / f"{now:%Y-%m-%d}.md"
+        fpath.write_text(f"# {subject}\n\n{text}\n", encoding="utf-8")
+        print(f"Briefing uložen: {fpath}")
 
-    ok, msg = emailer.send_email(subject, text)
-    print("E-mail odeslán ✓" if ok else f"E-mail neodeslán: {msg}")
+    if config.SEND_EMAIL and briefing_ok:
+        ok, msg = emailer.send_email(subject, text)
+        print("E-mail odeslán ✓" if ok else f"E-mail neodeslán: {msg}")
+    elif not config.SEND_EMAIL:
+        print("E-mail přeskočen (SEND_EMAIL=0) — jen aktualizace dashboardu/historie.")
 
     dashboard.build(data, subject, text, now)
     print("Web (docs/index.html) aktualizován")

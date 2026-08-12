@@ -12,6 +12,10 @@ RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
 EMAIL_TO = os.environ.get("EMAIL_TO", "")
 EMAIL_FROM = os.environ.get("EMAIL_FROM") or "Portfolio <onboarding@resend.dev>"
 
+# Přepínač odesílání e-mailu. SEND_EMAIL=0 → briefing se vygeneruje a dashboard/historie
+# se aktualizují, ale e-mail se nepošle (režim „jen živý dashboard, bez schránky").
+SEND_EMAIL = os.environ.get("SEND_EMAIL", "1") != "0"
+
 TIMEZONE = "Europe/Prague"
 SEND_HOUR = 8           # cílová lokální hodina, kdy má briefing odejít
 # GitHub Actions "schedule" triggery umí naskočit se zpožděním v řádu hodin (běžné

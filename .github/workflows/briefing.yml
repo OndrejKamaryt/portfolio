@@ -1,12 +1,13 @@
 name: Portfolio briefing
 
 on:
-  # === AUTOMATICKÉ ODESÍLÁNÍ POZASTAVENO (na žádost) ===
-  # Pro znovuzapnutí odkomentuj blok `schedule` níže (vrátí se hodinové pokusy v okně
-  # 4-12 UTC = 6-13 Praha; main.py díky oknu + pojistce stejně pošle jen jednou denně).
-  # schedule:
-  #   - cron: "0 4-12 * * *"
-  workflow_dispatch:       # ruční spuštění tlačítkem "Run workflow" (funguje i teď)
+  # Režim „JEN ŽIVÝ DASHBOARD, BEZ E-MAILŮ": cron běží (aktualizuje dashboard + historii),
+  # ale e-mail se neposílá (SEND_EMAIL: "0" v env níže). Hodinové pokusy v okně 4-12 UTC
+  # (= 6-13 Praha); main.py díky oknu + pojistce v history.csv provede běh jen jednou denně.
+  # Chceš zpátky i e-maily? Změň SEND_EMAIL na "1" (nebo ten řádek smaž).
+  schedule:
+    - cron: "0 4-12 * * *"
+  workflow_dispatch:       # ruční spuštění tlačítkem "Run workflow"
 
 permissions:
   contents: write   # potřeba pro commit history.csv zpátky do repa po běhu
@@ -27,7 +28,9 @@ jobs:
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           MODEL: ${{ secrets.MODEL }}
-          # Ruční spuštění ignoruje hodinovou pojistku (pošle hned):
+          # "0" = e-maily se neposílají, jen se aktualizuje dashboard + historie.
+          SEND_EMAIL: "0"
+          # Ruční spuštění ignoruje hodinovou pojistku (proběhne hned):
           FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
       # history.csv, glossary.md a docs/ (statický web) žijí jen v repu (runner je po běhu
       # smazaný) — commitni je zpátky. docs/ je zdroj pro GitHub Pages.
