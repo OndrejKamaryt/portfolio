@@ -30,7 +30,10 @@ def append(date, total_czk):
 def _rows():
     if not PATH.exists():
         return []
-    out = []
+    # jeden záznam na datum — kdyby v CSV bylo víc řádků pro stejný den (dřív se to stávalo
+    # při opakovaných bězích), poslední hodnota dne vyhrává; jinak by graf měl na jednom
+    # datu naskládáno víc bodů a nedával by smysl.
+    by_date = {}
     with PATH.open(encoding="utf-8") as f:
         for row in csv.DictReader(f):
             try:
@@ -40,10 +43,11 @@ def _rows():
             if not math.isfinite(val):   # přeskoč případný starší "nan" řádek
                 continue
             try:
-                out.append((datetime.date.fromisoformat(row["date"]), val))
+                d = datetime.date.fromisoformat(row["date"])
             except (KeyError, ValueError):
                 continue
-    return sorted(out)
+            by_date[d] = val
+    return sorted(by_date.items())
 
 
 def all_rows():

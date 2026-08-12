@@ -321,7 +321,7 @@ new Chart(document.getElementById('historyChart'), {{
   options: {{
     scales: {{
       y: {{ beginAtZero: false, grid: {{ color: '#20242f' }}, ticks: {{ color: '#565e70', font: {{ family: 'IBM Plex Mono', size: 10 }} }} }},
-      x: {{ grid: {{ color: '#20242f' }}, ticks: {{ color: '#565e70', font: {{ family: 'IBM Plex Mono', size: 10 }} }} }},
+      x: {{ grid: {{ color: '#20242f' }}, ticks: {{ color: '#565e70', font: {{ family: 'IBM Plex Mono', size: 10 }}, maxTicksLimit: 8, maxRotation: 0, autoSkip: true }} }},
     }},
     plugins: {{ legend: {{ display: false }} }},
   }},
