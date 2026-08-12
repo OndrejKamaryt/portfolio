@@ -1,10 +1,10 @@
 name: Portfolio briefing
 
 on:
-  # Režim „JEN ŽIVÝ DASHBOARD, BEZ E-MAILŮ": cron běží (aktualizuje dashboard + historii),
-  # ale e-mail se neposílá (SEND_EMAIL: "0" v env níže). Hodinové pokusy v okně 4-12 UTC
-  # (= 6-13 Praha); main.py díky oknu + pojistce v history.csv provede běh jen jednou denně.
-  # Chceš zpátky i e-maily? Změň SEND_EMAIL na "1" (nebo ten řádek smaž).
+  # Denní briefing e-mailem + aktualizace dashboardu (SEND_EMAIL: "1" v env níže).
+  # Hodinové pokusy v okně 4-12 UTC (= 6-13 Praha), protože GitHub cron umí naskočit
+  # se zpožděním; main.py díky oknu + pojistce v history.csv proběhne jen jednou denně.
+  # Chceš vypnout jen e-maily (a nechat běžet dashboard)? Změň SEND_EMAIL na "0".
   schedule:
     - cron: "0 4-12 * * *"
   workflow_dispatch:       # ruční spuštění tlačítkem "Run workflow"
@@ -28,8 +28,8 @@ jobs:
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           MODEL: ${{ secrets.MODEL }}
-          # "0" = e-maily se neposílají, jen se aktualizuje dashboard + historie.
-          SEND_EMAIL: "0"
+          # "1" = posílat e-mailem; "0" = jen aktualizovat dashboard + historii bez e-mailu.
+          SEND_EMAIL: "1"
           # Ruční spuštění ignoruje hodinovou pojistku (proběhne hned):
           FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
       # history.csv, glossary.md a docs/ (statický web) žijí jen v repu (runner je po běhu
