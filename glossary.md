@@ -29,3 +29,4 @@ Automaticky vedený seznam (viz sekce „Pojem k tématu“ v briefinzích).
 - 2026-07-28: short float
 - 2026-07-29: premarket/afterhours pohyb
 - 2026-08-12: guidance miss
+- 2026-08-13: free cash flow marže
