@@ -32,3 +32,4 @@ Automaticky vedený seznam (viz sekce „Pojem k tématu“ v briefinzích).
 - 2026-08-13: free cash flow marže
 - 2026-08-14: volný cash flow
 - 2026-08-17: zpětný odkup akcií
+- 2026-08-18: short squeeze
