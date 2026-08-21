@@ -35,3 +35,4 @@ Automaticky vedený seznam (viz sekce „Pojem k tématu“ v briefinzích).
 - 2026-08-18: short squeeze
 - 2026-08-19: termínová prémie
 - 2026-08-20: insider selling
+- 2026-08-21: Likviditní injekce (Treasury buyback)
