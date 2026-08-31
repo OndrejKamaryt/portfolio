@@ -39,3 +39,4 @@ Automaticky vedený seznam (viz sekce „Pojem k tématu“ v briefinzích).
 - 2026-08-24: dry powder
 - 2026-08-25: Guidance (výhled)
 - 2026-08-26: Bookings (nasmlouvané tržby)
+- 2026-08-31: Rule of 40
